@@ -14,4 +14,5 @@
 - [ ] Payments: GRAM (ex-TON) to wallet UQBZpl8i0OIMVuOxTBKKFlu6XPYRiedFK2y3k1KGUV5WwjNe + Telegram Stars; review all paid flows
 - [ ] Out-of-spins purchase offer
 - [ ] Timed events with rotating tokens; AI-generated new event art/tokens
-- [ ] New character art (needs character reference image from user), splash page, Royal Pass art, notification & daily event images
+- [ ] Many character variants from user's uploaded Holo character, spread across the app
+- [ ] New character art, splash page, Royal Pass art, notification & daily event images
