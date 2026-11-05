@@ -584,3 +584,4 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 .merge-buy:hover { background: linear-gradient(180deg, var(--ios-blue-2), var(--ios-blue)); }
 .merge-buy, .merge-claim, .pill-btn { box-shadow: var(--ios-shadow); }
 .merge-claim { background: var(--ios-glass); }
+.fire-pass-page .fire-pass-progress p, .fire-pass-page .fire-pass-progress-value, .fire-pass-page .fire-pass-sub-note, .fire-pass-page .fire-pass-ticket-free { color: oklch(0.3 0.04 265 / 75%); }
