@@ -21,6 +21,10 @@
 - [x] NFT page full clean redesign
 - [x] Research existing reward economy and responsible monetization; findings delivered with platform and cash-out risks
 - [x] Compare Boinkers, Telegram token games, Coin Master and Monopoly GO using public sources; distinguish actual withdrawals from marketing
+- [x] Implement approved event presentation, exact bundle contents and pass spin/ticket previews; preserve economy values
+- [x] Restrict digital-goods checkout to Stars on server and confirmation screen; add payment and reward-claim tests
+- [ ] Publish approved changes on Lovable after verification
+- [ ] Update Vercel deployment (blocked: no safely available Vercel connection or credential)
 - [ ] Implement real-value reward economy only after target countries, age policy, licensing and funded withdrawal rules are resolved
 - [x] Fire Pass rewards (events still to review): mix of big spin amounts + wheel spins (not wheel only)
 - [x] Daily AI-generated images (made by job; daily timer still open): news post, splash, notifications, each event

@@ -15,3 +15,4 @@
 - Render all slots event and paid-offer entry points through the same Chip, and share reward actions across event-specific layouts so visual variants cannot diverge in claim behavior.
 - Daily AI artwork is stored as base64 rows in holo_art and served by /api/public/art/$kind, because public storage buckets are blocked in this workspace.
 - Images are cached on-device by public/sw.js (production only) to keep the Telegram app fast without bundling remote images.
+- Enforce digital-goods payment policy in holoBuy before payment creation and share its pure policy with tests; client checkout alone is not a security boundary.

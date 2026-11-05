@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ART } from "@/lib/art";
+import { Button } from "@/components/ui/button";
 import starsIcon from "@/assets/icon-stars.png";
 import { resolveProduct } from "@/lib/holo/products";
 
@@ -9,7 +9,7 @@ let req: Req = null;
 const subs = new Set<() => void>();
 const emit = () => subs.forEach((f) => f());
 
-/** Asks the player how to pay (Stars or GRAM) for one product; resolves null when dismissed. */
+/** Confirms the exact Stars price; no alternative digital-goods checkout. */
 export function choosePayMethod(product: string) {
   return new Promise<"stars" | "gram" | null>((resolve) => { req?.resolve(null); req = { product, resolve }; emit(); });
 }
@@ -23,13 +23,12 @@ export function PayChooser() {
       <Dialog.Overlay className="pay-chooser-backdrop" />
       <Dialog.Content className="pay-chooser" aria-describedby={undefined}>
         <span className="pay-chooser-grab" />
-        <Dialog.Title className="pay-chooser-title">Choose payment</Dialog.Title>
+        <Dialog.Title className="pay-chooser-title">Confirm purchase</Dialog.Title>
         {p && <p className="pay-chooser-sub">{p.title}</p>}
         <div className="pay-chooser-options">
-          <button type="button" onClick={() => done("stars")}><img src={starsIcon} alt="" /><span>Telegram Stars</span><b>{p?.stars ?? ""} ⭐</b></button>
-          <button type="button" onClick={() => done("gram")}><img src={ART.ton} alt="" /><span>GRAM</span><b>{p?.gram ?? ""} GRAM</b></button>
+          <Button type="button" disabled={!p} onClick={() => done("stars")}><img src={starsIcon} alt="" /><span>Telegram Stars</span><b>{p?.stars ?? ""} ⭐</b></Button>
         </div>
-        <Dialog.Close className="pay-chooser-cancel">Cancel</Dialog.Close>
+        <Dialog.Close asChild><Button variant="ghost" className="pay-chooser-cancel">Cancel</Button></Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>;

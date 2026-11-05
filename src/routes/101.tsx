@@ -7,7 +7,7 @@ import { holoAdmin, type AdminOp } from "@/lib/holo/holo.functions";
 import { tgInitData } from "@/lib/game";
 
 export const Route = createFileRoute("/101")({
-  head: () => ({ meta: [{ title: "Holo Admin" }, { name: "robots", content: "noindex" }, { name: "description", content: "Holo admin panel" }, { property: "og:title", content: "Holo Admin" }, { property: "og:description", content: "Holo admin panel" }] }),
+  head: () => ({ meta: [{ title: "Holo Admin" }, { name: "robots", content: "noindex" }, { name: "description", content: "Holo admin panel" }, { property: "og:title", content: "Holo Admin" }, { property: "og:description", content: "Holo admin panel" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AdminPage,
 });
 

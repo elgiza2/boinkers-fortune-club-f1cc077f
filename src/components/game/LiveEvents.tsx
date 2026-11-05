@@ -21,7 +21,7 @@ function Chip({ img, timer, label }: { img: string; timer: string; label: string
     <span className="relative flex w-[62px] shrink-0 flex-col items-center">
       <img src={img} alt="" className="h-11 w-11 object-contain drop-shadow-[0_3px_0_var(--ink)]" />
       <span className="mt-0.5 rounded-full border border-border bg-ink/70 px-1.5 text-[9px] font-bold leading-[14px] text-berry backdrop-blur-md">{timer}</span>
-      <span className="mt-0.5 line-clamp-2 text-center text-[9px] font-semibold leading-[11px] text-cream">{label}</span>
+      <span className="mt-0.5 line-clamp-2 text-center text-[9px] font-semibold leading-[11px] text-foreground">{label}</span>
     </span>
   );
 }
@@ -33,7 +33,8 @@ export function EventsRow({ now }: { now: number }) {
   const offer = offers.find((o) => o.key === offerKey);
   return (
     <>
-      <div className="flex gap-1.5 overflow-x-auto px-1 pb-1 pt-2.5 [scrollbar-width:none]">
+      <div className="slots-event-entries">
+        <div className="slots-event-group" aria-label="Collection events">
         {LIVE_EVENTS.map((e) => {
           const { endsIn } = eventRun(e, now || 0);
           return (
@@ -42,11 +43,13 @@ export function EventsRow({ now }: { now: number }) {
             </Button>
           );
         })}
+        </div><div className="slots-event-group slots-event-offers" aria-label="Shop bundles">
         {offers.map((o) => (
           <Button variant="ghost" key={o.key} onClick={() => setOfferKey(o.key)} aria-label={`Open ${o.name} offer`} className="h-auto shrink-0 p-0 hover:bg-transparent active:scale-90">
             <Chip img={OFFER_ART[o.key] ?? ART.chest} timer={now ? clock(o.endsIn) : "--:--:--"} label={o.name.toUpperCase()} />
           </Button>
         ))}
+        </div>
       </div>
       <SlotsOfferDialog selection={event ? { kind: "event", value: event } : offer ? { kind: "offer", value: offer } : null} now={now} onClose={() => { setEvent(null); setOfferKey(null); }} />
     </>

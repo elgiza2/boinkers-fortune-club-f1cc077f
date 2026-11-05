@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { resolveProduct } from "./products";
+import { digitalPaymentAllowed } from "./payment-policy";
 
 const init = z.object({ initData: z.string().min(10).max(4096) });
 
@@ -72,6 +73,7 @@ const productId = z.string().regex(/^(offer:[a-z]+|event:[a-z-]+:\d{1,2}|[a-z_0-
 export const holoBuy = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => init.extend({ product: productId, method: z.enum(["stars", "gram"]) }).parse(d))
   .handler(async ({ data }) => {
+    if (!digitalPaymentAllowed(data.method)) return { ok: false as const, error: "Digital goods in Telegram must be purchased with Stars" };
     const user = await auth(data.initData);
     const p = resolveProduct(data.product);
     if (!p) return { ok: false as const, error: "This offer has ended" };
