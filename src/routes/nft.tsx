@@ -39,14 +39,33 @@ function NftPage() {
     if (!address) { await connect(); return; }
     toast("Sales are not open yet. No TON will be charged.");
   }
+  const [group, setGroup] = useState("All");
+  const items = group === "All" ? NFT_ITEMS : NFT_ITEMS.filter((i) => i.group === group);
   return <Screen bare>
     <div className="nft-page">
-      <PayToggle value={pay} onChange={setPay} className="nft-pay" />
+      <header className="nft-head">
+        <div>
+          <h1>Holo Collection</h1>
+          <p>{NFT_ITEMS.length} characters · paid in GRAM</p>
+        </div>
+        <button onClick={connect} disabled={connecting} className={`nft-wallet ${address ? "is-on" : ""}`}>
+          {address ? `${address.slice(0, 4)}…${address.slice(-4)}` : "Connect wallet"}
+        </button>
+      </header>
+      <div className="nft-filters">
+        {["All", "Explorers", "Fantasy", "Legends"].map((g) => (
+          <button key={g} onClick={() => setGroup(g)} className={`nft-chip ${group === g ? "is-on" : ""}`}>{g}</button>
+        ))}
+        <PayToggle value={pay} onChange={setPay} className="ml-auto" />
+      </div>
       <div className="nft-grid">
-        {NFT_ITEMS.map(item => (
+        {items.map(item => (
           <article key={item.id} className={`nft-tile nft-${item.group.toLowerCase()}`}>
-            <div className="nft-tile-art"><img src={item.image} alt={item.name} loading="lazy" /></div>
-            <h2>{item.name}</h2>
+            <div className="nft-tile-art">
+              <span className={`nft-rarity nft-r-${item.rarity.toLowerCase()}`}>{item.rarity}</span>
+              <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
+            </div>
+            <div className="nft-meta"><h2>{item.name}</h2><span>#{String(item.id).padStart(3, "0")}</span></div>
             <Button onClick={buy} disabled={connecting} className="nft-tile-buy gap-1" aria-label={`Buy ${item.name}`}><PriceTag ton={item.price} currency={pay} /></Button>
           </article>
         ))}
