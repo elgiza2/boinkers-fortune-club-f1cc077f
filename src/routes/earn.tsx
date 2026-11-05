@@ -1,3 +1,5 @@
+import { useServerFn } from "@tanstack/react-start";
+import { holoTasks, holoClaimTask } from "@/lib/holo/holo.functions";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -40,32 +42,38 @@ function Earn() {
   );
 }
 
-const TASKS = [
-  { id: "tg", icon: ART.bag, title: "Join our Telegram channel", url: "https://t.me/telegram", r: { spins: 10 } },
-  { id: "x", icon: ART.rocket, title: "Follow us on X", url: "https://x.com", r: { spins: 8 } },
-  { id: "yt", icon: "▶️", title: "Watch the trailer", url: "https://youtube.com", r: { spins: 15 } },
-  { id: "story", icon: ART.book, title: "Share a story", url: "https://t.me", r: { tickets: 1 } },
-];
-
 function Tasks() {
-  const { s, completeTask } = useGame();
+  const { grant } = useGame();
+  const list = useServerFn(holoTasks), claim = useServerFn(holoClaimTask);
+  const [tasks, setTasks] = useState<Awaited<ReturnType<typeof holoTasks>> | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
+  const [busy, setBusy] = useState<string | null>(null);
+  useEffect(() => { const d = tgInitData(); if (d) list({ data: { initData: d } }).then(setTasks).catch(() => setTasks([])); else setTasks([]); }, [list]);
+  const open = (url: string | null) => { if (!url) return; const wa = (window as unknown as { Telegram?: { WebApp?: { openTelegramLink?: (u: string) => void; openLink?: (u: string) => void } } }).Telegram?.WebApp;
+    if (url.startsWith("https://t.me/") && wa?.openTelegramLink) wa.openTelegramLink(url); else if (wa?.openLink) wa.openLink(url); else window.open(url, "_blank"); };
   return (
     <div className="space-y-2.5">
-      <h2 className="font-display text-2xl text-sun">COMPLETE &amp; EARN</h2>
-      {TASKS.map((t) => {
-        const done = s.tasksDone.includes(t.id), go = opened.includes(t.id);
-        const label = t.r.spins ? `+${t.r.spins} SPINS` : `+${t.r.tickets ?? 0} TICKET${(t.r.tickets ?? 0) > 1 ? "S" : ""}`;
+      <h2 className="font-display text-2xl">Complete &amp; earn</h2>
+      {tasks === null && <p className="text-sm text-muted-foreground">Loading tasks…</p>}
+      {tasks?.length === 0 && <p className="glass-card p-4 text-sm text-muted-foreground">Open Holo inside Telegram to see your tasks.</p>}
+      {tasks?.map((t) => {
+        const go = opened.includes(t.id);
+        const label = [t.reward_spins && `+${t.reward_spins} spins`, t.reward_tickets && `+${t.reward_tickets} wheel`, t.reward_coins && `+${fmt(t.reward_coins)} coins`].filter(Boolean).join(" · ");
         return (
           <div key={t.id} className="glass-card flex items-center gap-3 p-2.5">
-            {t.id === "yt"
-              ? <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/10 text-lg">▶️</span>
-              : <img src={t.icon} alt="" className="h-9 w-9 object-contain" />}
-            <div className="flex-1"><div className="font-semibold leading-tight">{t.title}</div><div className="font-display text-sm text-sun">{label}</div></div>
-            <button disabled={done} onClick={() => {
-              if (!go) { window.open(t.url, "_blank"); setOpened((o) => [...o, t.id]); }
-              else { completeTask(t.id, t.r); toast.success(`Reward ${label}`); }
-            }} className={`pill-btn ${go ? "pill-btn-lime" : "pill-btn-sky"}`}>{done ? "DONE" : go ? "VERIFY" : "GO"}</button>
+            <img src={t.kind === "link" ? ART.rocket : ART.bag} alt="" className="h-9 w-9 object-contain" />
+            <div className="flex-1"><div className="font-semibold leading-tight">{t.title}</div><div className="text-sm font-semibold text-primary">{label}</div></div>
+            <button disabled={t.done || busy === t.id} onClick={async () => {
+              if (!go) { open(t.url); setOpened((o) => [...o, t.id]); return; }
+              setBusy(t.id);
+              try {
+                const r = await claim({ data: { initData: tgInitData(), taskId: t.id } });
+                if (!r.ok) { toast.error(r.error); return; }
+                grant({ spins: r.reward.spins, tickets: r.reward.tickets, coins: r.reward.coins });
+                setTasks((all) => all?.map((x) => (x.id === t.id ? { ...x, done: true } : x)) ?? all);
+                toast.success(`Reward ${label}`);
+              } finally { setBusy(null); }
+            }} className={`pill-btn ${go ? "pill-btn-lime" : "pill-btn-sun"}`}>{t.done ? "Done" : go ? "Check" : "Go"}</button>
           </div>
         );
       })}
@@ -76,7 +84,7 @@ function Tasks() {
 const REF_STEPS = [{ n: 1, r: "10 SPINS" }, { n: 3, r: "1 TICKET" }, { n: 5, r: "100 SPINS" }, { n: 10, r: "3 TICKETS" }, { n: 25, r: "20 TICKETS" }];
 
 function Friends() {
-  const link = "https://t.me/SoloSlotsBot?start=ref_" + ((typeof window !== "undefined" && (window as any).Telegram?.WebApp?.initDataUnsafe?.user?.id) || "demo");
+  const link = "https://t.me/holoiobot?start=ref_" + ((typeof window !== "undefined" && (window as any).Telegram?.WebApp?.initDataUnsafe?.user?.id) || "demo");
   const invited = 0;
   return (
     <div className="space-y-3">

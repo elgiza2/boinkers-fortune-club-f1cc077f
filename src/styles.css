@@ -589,3 +589,4 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 .ios-offer-row:active { transform: scale(.98); }
 .ios-offer-row[data-best] { outline: 2px solid var(--ios-blue); }
 .ios-offer-row:disabled { opacity: .6; }
+.fire-pass-page { padding-top: max(calc(env(safe-area-inset-top) + 12px), calc(var(--tg-safe-top, 0px) + 12px)); }
