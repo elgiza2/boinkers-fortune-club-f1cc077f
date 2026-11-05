@@ -230,7 +230,7 @@ function Home() {
             {/* reels */}
             <div className="mt-3 grid grid-cols-3 gap-2">
               {reels.map((sym, i) => (
-                <div key={i} className="slot-reel relative overflow-hidden rounded-[22px] bg-cream shadow-[inset_0_14px_14px_-10px_oklch(0_0_0/.3),inset_0_-14px_14px_-10px_oklch(0_0_0/.3)]">
+                <div key={i} className="slot-reel relative overflow-hidden rounded-[22px] bg-reel shadow-[inset_0_14px_14px_-10px_oklch(0_0_0/.3),inset_0_-14px_14px_-10px_oklch(0_0_0/.3)]">
                   {spinning[i] ? (
                     <div className="animate-reel flex flex-col items-center blur-[1px]">
                       {[...STRIP, ...STRIP].map((x, k) => <SymImg key={k} sym={x} className="slot-sym-spin" />)}

@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { Volume2, VolumeX, X, Menu, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import hero from "@/assets/hero-character.png";
-import sky from "@/assets/night-sky.jpg";
 import { fmt, useGame, MAX_SPINS } from "@/lib/game";
 import { ART } from "@/lib/art";
 import { getTonWallet } from "@/lib/ton-wallet";
@@ -177,7 +176,7 @@ export function BottomNav({ center }: { center?: ReactNode }) {
 export function Screen({ children, center, bare, scroll = true, navigation = true }: { children: ReactNode; center?: ReactNode; bare?: boolean; scroll?: boolean; navigation?: boolean }) {
   return (
     <div className="relative mx-auto flex h-[100dvh] max-w-md flex-col overflow-hidden bg-night">
-      <img src={sky} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+      <div className="ios-bg" aria-hidden><i /><i /><i /></div>
       <TopBar />
       <main className={`relative min-h-0 flex-1 ${scroll ? "overflow-y-auto" : "overflow-hidden"} ${bare ? "" : "px-3 py-3"}`}>{children}</main>
       {navigation && <BottomNav center={center} />}
