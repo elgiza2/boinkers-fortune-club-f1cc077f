@@ -832,6 +832,33 @@ export type Database = {
         }
         Relationships: []
       }
+      holo_art: {
+        Row: {
+          created_at: string
+          data_b64: string
+          id: string
+          kind: string
+          mime: string
+          prompt: string
+        }
+        Insert: {
+          created_at?: string
+          data_b64: string
+          id: string
+          kind: string
+          mime?: string
+          prompt: string
+        }
+        Update: {
+          created_at?: string
+          data_b64?: string
+          id?: string
+          kind?: string
+          mime?: string
+          prompt?: string
+        }
+        Relationships: []
+      }
       holo_gifts: {
         Row: {
           claimed_at: string | null
