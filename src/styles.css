@@ -590,3 +590,11 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 .ios-offer-row[data-best] { outline: 2px solid var(--ios-blue); }
 .ios-offer-row:disabled { opacity: .6; }
 .fire-pass-page { padding-top: max(calc(env(safe-area-inset-top) + 12px), calc(var(--tg-safe-top, 0px) + 12px)); }
+/* ---- Admin (/101) ---- */
+.admin-page { min-height: 100dvh; max-width: 480px; margin: auto; display: flex; flex-direction: column; gap: 12px; padding: max(calc(var(--tg-safe-top, 0px) + 16px), calc(env(safe-area-inset-top) + 16px)) 14px 32px; background: linear-gradient(160deg, oklch(0.94 0.03 240), oklch(0.95 0.03 300)); color: var(--foreground); }
+.admin-card { padding: 14px; border-radius: 20px; background: var(--ios-glass); border: 1px solid var(--merge-line); backdrop-filter: blur(24px); box-shadow: var(--ios-shadow); }
+.admin-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid oklch(0.3 0.03 265 / 8%); }
+.admin-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 36px; padding: 0 14px; border-radius: 12px; font-weight: 700; font-size: 13px; color: var(--primary-foreground); background: var(--primary); }
+.admin-btn-ghost { color: var(--foreground); background: oklch(1 0 0 / 70%); }
+.admin-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: oklch(1 0 0 / 70%); color: var(--foreground); }
+.admin-input { width: 100%; height: 38px; padding: 0 12px; border-radius: 12px; background: oklch(1 0 0 / 80%); border: 1px solid oklch(0.3 0.03 265 / 12%); color: var(--foreground); font-size: 14px; }
