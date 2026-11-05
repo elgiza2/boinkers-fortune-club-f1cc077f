@@ -7,7 +7,7 @@ export function botToken() {
   return t;
 }
 
-export const APP_URL = () => process.env["HOLO_APP_URL"] ?? "https://project--269949c4-3663-4a2a-8359-01af1ba8ae09-dev.lovable.app";
+export const APP_URL = () => process.env["HOLO_APP_URL"] ?? "https://holo-silk-omega.vercel.app";
 export const HOLO_EMOJI_ID = "5368765414136364384"; // from t.me/addemoji/creatoper
 export const NEWS_CHAT = "@holocom";
 export const COMMUNITY_CHAT = "@holoik";
@@ -54,7 +54,7 @@ export async function tg<T = unknown>(method: string, body: Record<string, unkno
 /** Sends HTML text; retries without custom emoji if Telegram refuses it. */
 export async function sendHtml(chat_id: number | string, html: string, reply_markup?: unknown, photo?: string) {
   const plain = html.replace(/<tg-emoji[^>]*>(.*?)<\/tg-emoji>/g, "$1");
-  const unstyled = reply_markup ? JSON.parse(JSON.stringify(reply_markup, (k, v) => (k === "style" ? undefined : v))) : undefined;
+  const unstyled = reply_markup ? JSON.parse(JSON.stringify(reply_markup, (k, v) => (k === "style" || k === "icon_custom_emoji_id" ? undefined : v))) : undefined;
   const send = (text: string, markup: unknown, pic?: string) => pic
     ? tg("sendPhoto", { chat_id, photo: pic, caption: text, parse_mode: "HTML", reply_markup: markup })
     : tg("sendMessage", { chat_id, text, parse_mode: "HTML", reply_markup: markup, link_preview_options: { is_disabled: true } });
