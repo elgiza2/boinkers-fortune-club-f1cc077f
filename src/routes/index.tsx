@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 type Cell = string; // base symbol, "token" (main event) or a live event key
-type WinInfo = { coins: number; spins: number; tickets: number; ton: number; k: number; mult: number; tok?: { key: string; n: number } };
+type WinInfo = { coins: number; spins: number; tickets: number; ton: number; solo: number; k: number; mult: number; tok?: { key: string; n: number } };
 type Burst = { img: string; left: number; top: number; size: number; tx: number; ty: number; s: number; rot: number; dur: number; delay: number };
 
 const rand = (seed: number) => () => {
@@ -133,7 +133,7 @@ function Home() {
         const luck = prizeTier(s.spins);
         const total = applyPrizeMult({ ...p, coins: p.coins + tokenCoins }, luck.mult);
         grant(total);
-        if (total.coins || total.spins || total.tickets || total.ton) {
+        if (total.coins || total.spins || total.tickets || total.ton || total.solo) {
           setShake(true); setTimeout(() => setShake(false), 650);
           beep(s.sound, 900, 0.25);
           const info: WinInfo = { ...total, k: Date.now(), mult: luck.mult };
@@ -178,7 +178,7 @@ function Home() {
               {win ? (
                 <div key={win.k} className="animate-pop flex w-full items-center justify-center gap-2">
                   <span className="font-display text-xs tracking-wider text-cream/70">YOU WON</span>
-                  {([["coins", ART.coin], ["spins", ART.bolt], ["tickets", ART.wheelSpin], ["ton", ART.ton]] as const).filter(([k]) => win[k] > 0).map(([k, img]) => (
+                  {([["coins", ART.coin], ["solo", ART.gem], ["spins", ART.bolt], ["tickets", ART.wheelSpin], ["ton", ART.ton]] as const).filter(([k]) => win[k] > 0).map(([k, img]) => (
                     <span key={k} className="flex items-center gap-1 rounded-full bg-cream/15 py-0.5 pl-0.5 pr-2.5">
                       <img src={img} alt="" className="h-7 w-7 object-contain" />
                       <span className="font-display text-base leading-none text-sun">+{k === "ton" ? win[k] : fmt(win[k])}</span>

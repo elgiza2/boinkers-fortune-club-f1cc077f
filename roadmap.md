@@ -28,3 +28,4 @@
 - [x] Show Telegram profile photo in top bar
 - [ ] Hold-for-autospin must work reliably
 - [ ] Slots: more frequent/bigger wins + include our Holo coin (SOLO) in slot payouts
+- [ ] New bottom nav icons + header top safe area (Telegram fullscreen)

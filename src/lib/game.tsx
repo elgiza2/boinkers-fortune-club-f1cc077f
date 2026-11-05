@@ -106,8 +106,9 @@ export function prizeTier(spins: number) {
   return { mult, next: nextStep === null ? null : +(1 + nextStep * 0.2).toFixed(1), spinsToNext: nextStep === null ? 0 : nextStep * PRIZE_STEP - Math.max(0, spins) };
 }
 /** Scale a slot payout by the luck multiplier, rounding up so a bigger balance never pays less. */
-export function applyPrizeMult(win: { coins: number; spins: number; tickets: number; ton: number }, mult: number) {
+export function applyPrizeMult(win: { coins: number; spins: number; tickets: number; ton: number; solo?: number }, mult: number) {
   return {
+    solo: Math.round((win.solo ?? 0) * mult),
     coins: Math.round((win.coins * mult) / 10) * 10,
     spins: Math.ceil(win.spins * mult),
     tickets: Math.ceil(win.tickets * mult),
