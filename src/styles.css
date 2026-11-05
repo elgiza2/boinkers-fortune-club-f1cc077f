@@ -636,3 +636,11 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 .nft-meta h2 { font-family: inherit; font-size: 14px; font-weight: 750; color: var(--foreground); text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nft-meta span { font-size: 11px; font-weight: 600; color: var(--muted-foreground); }
 .nft-tile-buy, .nft-tile-buy:hover { height: 38px; border-radius: 14px; font-family: inherit; font-size: 14px; font-weight: 800; color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, oklch(1 0 0)); box-shadow: none; filter: none; }
+.holo-splash { position: fixed; inset: 0; z-index: 100; background: oklch(0.78 0.1 240); transition: opacity .4s ease; }
+.holo-splash.is-out { opacity: 0; pointer-events: none; }
+.holo-splash img { width: 100%; height: 100%; object-fit: cover; }
+.holo-splash-title { position: absolute; left: 0; right: 0; top: calc(var(--tg-safe-top, 0px) + 18%); text-align: center; }
+.holo-splash-title h1 { font-size: 64px; font-weight: 900; letter-spacing: -.03em; color: oklch(1 0 0); text-shadow: 0 6px 24px oklch(0.4 0.15 260 / 45%); }
+.holo-splash-title span { display: block; width: 44px; height: 5px; margin: 10px auto 0; border-radius: 9px; background: oklch(1 0 0 / 50%); overflow: hidden; position: relative; }
+.holo-splash-title span::after { content: ""; position: absolute; inset: 0; width: 40%; border-radius: inherit; background: oklch(1 0 0); animation: holo-load 1.4s ease-in-out infinite; }
+@keyframes holo-load { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
