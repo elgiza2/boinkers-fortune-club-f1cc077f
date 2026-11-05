@@ -19,4 +19,8 @@
 - [ ] Redesign the spin button
 - [ ] Speed: cache images locally, remove unused libraries
 - [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
+- [ ] Fire Pass & event rewards: mix of big spin amounts + wheel spins (not wheel only)
+- [ ] Daily AI-generated images: news post, splash, notifications, each event
+- [ ] AI-driven rotating events & offers
+- [ ] Publish (via Lovable publish; Vercel not supported for this app build)
 - [ ] New character art, splash page, Royal Pass art, notification & daily event images
