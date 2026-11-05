@@ -125,6 +125,10 @@ function Home() {
       beep(s.sound, 300 + i * 120);
       if (i === 2) {
         const p = payout(result, bet);
+        const tokKey = result.find((x) => x === "token" || isLive(x));
+        const tokN = tokKey ? result.filter((x) => x === tokKey).length * bet : 0;
+        // Tokens are the better prize: they replace the small consolation coins.
+        if (tokN && !p.spins && !p.tickets && !p.solo && p.coins === 150 * bet) p.coins = 0;
         const mainHits = result.filter((x) => x === "token").length * bet;
         const tokenCoins = mainHits ? gainEvent(mainHits) : 0;
         const hits: Record<string, number> = {};
@@ -134,10 +138,10 @@ function Home() {
         const luck = prizeTier(s.spins);
         const total = applyPrizeMult({ ...p, coins: p.coins + tokenCoins }, luck.mult);
         grant(total);
-        if (total.coins || total.spins || total.tickets || total.ton || total.solo) {
+        if (total.coins || total.spins || total.tickets || total.ton || total.solo || tokN) {
           setShake(true); setTimeout(() => setShake(false), 650);
           beep(s.sound, 900, 0.25);
-          const info: WinInfo = { ...total, k: Date.now(), mult: luck.mult };
+          const info: WinInfo = { ...total, k: Date.now(), mult: luck.mult, ...(tokKey ? { tok: { key: tokKey === "token" ? currentEvent(Date.now()).key : tokKey, n: tokN } } : {}) };
           setWin(info); setPop(info);
           setTimeout(() => setPop((cur) => (cur?.k === info.k ? null : cur)), 3200);
         }
@@ -178,6 +182,12 @@ function Home() {
               {win ? (
                 <div key={win.k} className="animate-pop flex w-full items-center justify-center gap-2">
                   <span className="font-display text-xs tracking-wider text-cream/70">YOU WON</span>
+                  {win.tok && (
+                    <span className="flex items-center gap-1 rounded-full bg-primary/15 py-0.5 pl-0.5 pr-3 ring-2 ring-primary/40">
+                      <img src={TOKEN_ART[win.tok.key]} alt="Event tokens" className="h-8 w-8 object-contain" />
+                      <span className="font-display text-lg leading-none text-primary">+{win.tok.n}</span>
+                    </span>
+                  )}
                   {([["coins", ART.coin], ["solo", ART.gem], ["spins", ART.bolt], ["tickets", ART.wheelSpin], ["ton", ART.ton]] as const).filter(([k]) => win[k] > 0).map(([k, img]) => (
                     <span key={k} className="flex items-center gap-1 rounded-full bg-cream/15 py-0.5 pl-0.5 pr-2.5">
                       <img src={img} alt="" className="h-7 w-7 object-contain" />
