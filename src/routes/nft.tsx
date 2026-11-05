@@ -10,9 +10,9 @@ import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayTogg
 export const Route = createFileRoute("/nft")({
   head: () => ({
     meta: [
-      { title: "NFT Collection · TON — Solo Slots" },
+      { title: "NFT Collection · GRAM — Holo" },
       { name: "description", content: "Discover 60 Solo mascot designs and connect your TON wallet. Sales open when verified listings are available." },
-      { property: "og:title", content: "NFT Collection · TON — Solo Slots" },
+      { property: "og:title", content: "NFT Collection · GRAM — Holo" },
       { property: "og:description", content: "Explore Solo NFT artwork and buy your character with TON." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

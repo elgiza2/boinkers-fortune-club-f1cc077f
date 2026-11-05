@@ -14,9 +14,9 @@ import { MERGE_ART } from "@/lib/merge-art";
 
 export const Route = createFileRoute("/upgrade")({
   head: () => ({ meta: [
-    { title: "Merge Island — Solo Slots" },
+    { title: "Merge Island — Holo" },
     { name: "description", content: "Grow your island, merge evolving creatures and collect SOLO." },
-    { property: "og:title", content: "Merge Island — Solo Slots" },
+    { property: "og:title", content: "Merge Island — Holo" },
     { property: "og:description", content: "Merge golden buddies, discover new evolutions and collect SOLO." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),

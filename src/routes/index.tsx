@@ -14,9 +14,9 @@ import { ART, SYM_ART, TOKEN_ART } from "@/lib/art";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Solo Slots — Spin & Win" },
+      { title: "Holo — Spin, Merge & Win" },
       { name: "description", content: "Spin the cartoon slot machine and win coins, spins and tickets." },
-      { property: "og:title", content: "Solo Slots — Spin & Win" },
+      { property: "og:title", content: "Holo — Spin, Merge & Win" },
       { property: "og:description", content: "Spin the cartoon slot machine and win coins, spins and tickets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

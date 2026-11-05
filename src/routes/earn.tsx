@@ -8,9 +8,9 @@ import { fmt, useGame } from "@/lib/game";
 export const Route = createFileRoute("/earn")({
   head: () => ({
     meta: [
-      { title: "Earn & Hub — Solo Slots" },
+      { title: "Earn & Hub — Holo" },
       { name: "description", content: "Complete tasks, invite friends, climb the leaderboard and grab shop bundles." },
-      { property: "og:title", content: "Earn & Hub — Solo Slots" },
+      { property: "og:title", content: "Earn & Hub — Holo" },
       { property: "og:description", content: "Tasks, referrals, leaderboard and shop." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -86,7 +86,7 @@ function Friends() {
         <div className="mt-2 truncate rounded-full border border-white/10 bg-ink/50 px-3 py-2 font-mono text-xs">{link}</div>
         <div className="mt-2.5 grid grid-cols-2 gap-2">
           <button onClick={() => { navigator.clipboard?.writeText(link); toast.success("Link copied!"); }} className="pill-btn pill-btn-sky w-full">COPY</button>
-          <button onClick={() => window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent("Spin with me in Solo Slots!")}`, "_blank")} className="pill-btn pill-btn-lime w-full">SHARE</button>
+          <button onClick={() => window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent("Spin with me in Holo!")}`, "_blank")} className="pill-btn pill-btn-lime w-full">SHARE</button>
         </div>
       </div>
       <div className="glass-card p-3.5">

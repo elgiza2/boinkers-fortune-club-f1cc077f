@@ -12,9 +12,9 @@ import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayTogg
 export const Route = createFileRoute("/pass")({
   head: () => ({
     meta: [
-      { title: "Fire Pass — Solo Slots" },
+      { title: "Fire Pass — Holo" },
       { name: "description", content: "Track your Fire Pass progress and explore free, premium and royal spin rewards." },
-      { property: "og:title", content: "Fire Pass — Solo Slots" },
+      { property: "og:title", content: "Fire Pass — Holo" },
       { property: "og:description", content: "Free, premium and royal reward tracks for your spins." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

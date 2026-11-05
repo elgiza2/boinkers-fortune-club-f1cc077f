@@ -14,9 +14,9 @@ export const Route = createFileRoute("/event/$key")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.def.name ?? "Event"} — Solo Slots` },
+      { title: `${loaderData?.def.name ?? "Event"} — Holo` },
       { name: "description", content: "Collect event tokens on the slots and unlock rewards." },
-      { property: "og:title", content: `${loaderData?.def.name ?? "Event"} — Solo Slots` },
+      { property: "og:title", content: `${loaderData?.def.name ?? "Event"} — Holo` },
       { property: "og:description", content: "Collect event tokens on the slots and unlock rewards." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

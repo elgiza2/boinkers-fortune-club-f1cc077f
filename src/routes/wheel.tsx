@@ -12,9 +12,9 @@ import { WHEEL_PRIZES, nextWheelBet, wheelLandingRotation } from "@/lib/wheel";
 export const Route = createFileRoute("/wheel")({
   head: () => ({
     meta: [
-      { title: "Wheel of Fortune — Solo Slots" },
+      { title: "Wheel of Fortune — Holo" },
       { name: "description", content: "Use wheel spins to win spins, more wheel spins and TON." },
-      { property: "og:title", content: "Wheel of Fortune — Solo Slots" },
+      { property: "og:title", content: "Wheel of Fortune — Holo" },
       { property: "og:description", content: "Spin the wheel for big prizes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
