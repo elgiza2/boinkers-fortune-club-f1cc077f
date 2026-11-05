@@ -26,3 +26,5 @@
 - [ ] Publish (via Lovable publish; Vercel not supported for this app build)
 - [ ] New character art, splash page, Royal Pass art, notification & daily event images
 - [x] Show Telegram profile photo in top bar
+- [ ] Hold-for-autospin must work reliably
+- [ ] Slots: more frequent/bigger wins + include our Holo coin (SOLO) in slot payouts
