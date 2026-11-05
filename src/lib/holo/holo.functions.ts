@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { PRODUCTS, type ProductId } from "./products";
+import { resolveProduct } from "./products";
 
 const init = z.object({ initData: z.string().min(10).max(4096) });
 
@@ -67,19 +67,20 @@ export const holoClaimTask = createServerFn({ method: "POST" })
     return { ok: true as const, reward: { spins: t.reward_spins as number, tickets: t.reward_tickets as number, coins: t.reward_coins as number } };
   });
 
-const productId = z.enum(Object.keys(PRODUCTS) as [ProductId, ...ProductId[]]);
+const productId = z.string().regex(/^(offer:[a-z]+|[a-z_0-9]+)$/).max(40);
 
 export const holoBuy = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => init.extend({ product: productId, method: z.enum(["stars", "gram"]) }).parse(d))
   .handler(async ({ data }) => {
     const user = await auth(data.initData);
-    const p = PRODUCTS[data.product];
+    const p = resolveProduct(data.product);
+    if (!p) return { ok: false as const, error: "This offer has ended" };
     const { db } = await import("./admin.server");
     const d = await db();
     const comment = `holo-${crypto.randomUUID().slice(0, 8)}`;
     const amount = data.method === "stars" ? p.stars : p.gram;
     const { data: pay, error } = await d.from("holo_payments").insert({
-      telegram_id: user.id, product: p.id, method: data.method, amount, reward: p.reward, comment,
+      telegram_id: user.id, product: p.title, method: data.method, amount, reward: p.reward, comment,
     }).select("id").single();
     if (error || !pay) return { ok: false as const, error: "Could not start payment" };
     if (data.method === "stars") {
