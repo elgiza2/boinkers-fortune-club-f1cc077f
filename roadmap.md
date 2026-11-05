@@ -19,7 +19,8 @@
 - [ ] Redesign the spin button
 - [x] Speed: cache images locally on device (service worker), remove unused libraries
 - [x] NFT page full clean redesign
-- [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
+- [x] Research existing reward economy and responsible monetization; findings delivered with platform and cash-out risks
+- [ ] Implement real-value reward economy only after target countries, age policy, licensing and funded withdrawal rules are resolved
 - [x] Fire Pass rewards (events still to review): mix of big spin amounts + wheel spins (not wheel only)
 - [x] Daily AI-generated images (made by job; daily timer still open): news post, splash, notifications, each event
 - [ ] AI-driven rotating events & offers
