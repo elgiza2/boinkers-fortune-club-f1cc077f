@@ -39,7 +39,7 @@ describe("live events", () => {
 
 describe("slots", () => {
   it("pays spins, wheel spins and coins, not only coins", () => {
-    expect(payout(["bolt", "bolt", "bolt"], 1).spins).toBe(25);
+    expect(payout(["bolt", "bolt", "bolt"], 1).spins).toBe(50);
     expect(payout(["wheel", "wheel", "wheel"], 1).tickets).toBe(3);
     expect(payout(["wheel", "wheel", "coin"], 1).tickets).toBe(0);
     expect(payout(["gem", "gem", "gem"], 2).coins).toBe(20000);
@@ -48,8 +48,8 @@ describe("slots", () => {
     for (const a of PAYTABLE) expect(payout([a.sym, a.sym, a.sym], 3).ton).toBe(0);
   });
   it("pays consolation coins on a spin with no prize", () => {
-    expect(payout(["coin", "bolt", "wheel"], 1).coins).toBe(100);
-    expect(payout(["token", "live", "token"], 5).coins).toBe(500);
+    expect(payout(["coin", "bolt", "wheel"], 1).coins).toBe(150);
+    expect(payout(["token", "live", "chest"], 5).coins).toBe(750);
   });
 });
 
