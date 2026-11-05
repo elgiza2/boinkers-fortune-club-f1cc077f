@@ -69,7 +69,7 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
             `<b>Spin. Merge. Collect.</b>\nThe cutest slot adventure on Telegram.\n\n` +
             `${t.emoji("🎰")} <b>Free spins every minute</b>\n${t.emoji("🎁")} <b>Daily gifts right here in chat</b>\n${t.emoji("🏆")} <b>Live events &amp; GRAM prizes</b>\n\n` +
             `<b>Tap Play to start ↓</b>`;
-          await t.sendHtml(m.chat.id, html, startMarkup(appUrl), `${t.APP_URL()}/holo-start.jpg`);
+          await t.sendHtml(m.chat.id, html, startMarkup(appUrl), "https://holo-silk-omega.vercel.app/holo-start.jpg");
           return Response.json({ ok: true });
         }
         return Response.json({ ok: true });
