@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { NFT_ITEMS } from "@/lib/nft";
 import { getTonWallet } from "@/lib/ton-wallet";
-import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayToggle";
+import { PriceTag, type PayCurrency } from "@/components/game/PayToggle";
 
 export const Route = createFileRoute("/nft")({
   head: () => ({
@@ -57,7 +57,6 @@ function NftPage() {
           <button key={g} onClick={() => setGroup(g)} className={`nft-chip ${group === g ? "is-on" : ""}`}>{g}</button>
         ))}
       </div>
-      <PayToggle value={pay} onChange={setPay} className="nft-pay" />
       <div className="nft-grid">
         {items.map(item => (
           <article key={item.id} className={`nft-tile nft-${item.group.toLowerCase()}`}>

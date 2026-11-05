@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "sonner";
+import { PayChooser } from "@/components/game/PayChooser";
 import { Splash } from "@/components/game/Splash";
 
 import appCss from "../styles.css?url";
@@ -131,6 +132,7 @@ function RootComponent() {
       <GameProvider>
         <Splash />
         <Outlet />
+        <PayChooser />
         <Toaster position="bottom-center" richColors offset={110} />
 
       </GameProvider>

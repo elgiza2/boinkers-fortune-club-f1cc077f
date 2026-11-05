@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal } from "@/components/game/Shell";
-import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayToggle";
+import { PriceTag, type PayCurrency } from "@/components/game/PayToggle";
 import { PRODUCTS, SPIN_OFFERS } from "@/lib/holo/products";
 import { usePurchase } from "@/lib/holo/use-purchase";
 import { ART } from "@/lib/art";
@@ -14,7 +14,6 @@ export function SpinsOffer({ open, onClose }: { open: boolean; onClose: () => vo
     <Modal open={open} onClose={onClose} title="Out of spins">
       <img src={mascot} alt="Holo mascot waving" width={512} height={512} className="mx-auto -mt-2 h-28 w-28 object-contain" />
       <p className="mb-3 text-center text-sm text-muted-foreground">Spins refill 1 per minute — or grab a pack and keep playing now.</p>
-      <PayToggle value={pay} onChange={setPay} className="mx-auto mb-3" />
       <div className="grid gap-2">
         {SPIN_OFFERS.map((id, i) => {
           const p = PRODUCTS[id];

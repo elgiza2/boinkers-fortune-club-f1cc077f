@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { ArrowRight, ArrowUp, Check, ChevronDown, Lock, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayToggle";
+import { PriceTag, type PayCurrency } from "@/components/game/PayToggle";
 import { ART, TOKEN_ART } from "@/lib/art";
 import fusionScene from "@/assets/event-fusion-scene.jpg";
 import { clock, fmt, useGame } from "@/lib/game";
@@ -19,7 +19,7 @@ export function SlotsOfferDialog({ selection, now, onClose }: { selection: Selec
       <Dialog.Content className={`slots-offer-dialog slots-offer-${layout}`} aria-describedby={undefined}>
         <Dialog.Close asChild><Button variant="ghost" size="icon" className="slots-offer-close" aria-label="Close offer"><X /></Button></Dialog.Close>
         {selection && <Dialog.Title className="slots-offer-title">{layout === "egg" ? <><span>VLAD’S</span><span>EGG TRAIL</span></> : layout === "loot" ? <><span>GAME</span><span>LOOT</span></> : selection.value.name.toUpperCase()}</Dialog.Title>}
-        {selection && <PayToggle value={pay} onChange={setPay} className="slots-offer-pay" />}
+        {selection &&}
         {selection?.kind === "event" && <EventPresentation key={selection.value.key} def={selection.value} now={now} pay={pay} />}
         {selection?.kind === "offer" && <PaidPresentation key={selection.value.key} offer={selection.value} now={now} pay={pay} />}
       </Dialog.Content>
