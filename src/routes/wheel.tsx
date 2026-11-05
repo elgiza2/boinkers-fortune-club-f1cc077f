@@ -44,7 +44,7 @@ function WheelPage() {
     <Screen bare scroll={false} navigation={false}>
       <div className="fortune-page">
         <Link to="/" className="fortune-back" aria-label="Back to slots"><ArrowLeft size={24} /></Link>
-        <h1 className="fortune-title">WHEEL OF FORTUNE</h1>
+        <h1 className="fortune-title">Wheel of Fortune</h1>
         <div className="fortune-stage">
           <div className="fortune-stand"><span>SOLO</span></div>
           <div className="fortune-wheel" aria-label="Prize wheel">

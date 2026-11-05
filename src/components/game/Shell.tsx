@@ -33,10 +33,10 @@ export function TopBar() {
     if (u?.first_name || u?.username) setName(u.username ?? u.first_name ?? "Player");
   }, []);
   return (
-    <header className="safe-top relative z-30 shrink-0 border-b border-cream/10 bg-ink/45 backdrop-blur-xl">
+    <header className="safe-top ios-header relative z-30 shrink-0">
       <div className="grid h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-2.5">
         <div className="flex min-w-0 items-center gap-1.5">
-          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-[3px] border-lime bg-ink">
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-border bg-ink">
             <img src={hero} alt="" className="h-full w-full scale-125 object-cover object-top" />
           </div>
           <div className="min-w-0 leading-none">
@@ -49,7 +49,7 @@ export function TopBar() {
           <Pill icon={ART.wheelSpin} value={fmt(s.tickets)} />
           <Pill icon={ART.ton} value={String(s.ton)} />
         </div>
-        <button onClick={() => setSettings(true)} aria-label="Open settings" className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border-2 border-ink bg-gradient-to-b from-sky to-grape text-cream shadow-[0_2px_0_var(--ink)] active:scale-90">
+        <button onClick={() => setSettings(true)} aria-label="Open settings" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border bg-ink/60 text-cream backdrop-blur-xl active:scale-90">
           <Menu className="h-5 w-5" strokeWidth={3} />
         </button>
       </div>
@@ -133,7 +133,7 @@ function NavItem({ icon, label, to }: { icon: string; label: string; to: To }) {
       <span className="nav-icon grid h-10 w-10 place-items-center rounded-2xl">
         <img src={icon} alt="" className="nav-icon-img h-9 w-9 object-contain" />
       </span>
-      <span className="font-display text-[11px] leading-none text-muted-foreground transition-colors group-data-[status=active]:text-sun">{label}</span>
+      <span className="text-[10px] font-semibold capitalize leading-none text-muted-foreground transition-colors group-data-[status=active]:text-primary">{label}</span>
     </Link>
   );
 }
@@ -146,27 +146,27 @@ export function BottomNav({ center }: { center?: ReactNode }) {
   const pct = Math.min(100, (s.spins / MAX_SPINS) * 100);
   return (
     <nav className="relative z-30 pb-[env(safe-area-inset-bottom)]">
-      <div className={`relative grid grid-cols-[1fr_1fr_1.9fr_1fr_1fr] border-t border-white/10 bg-ink/45 backdrop-blur-2xl ${compact ? "h-[66px]" : "h-[78px]"}`}>
-        <NavItem icon={ART.rocket} label="UPGRADE" to="/upgrade" />
-        <NavItem icon={ART.bag} label="EARN" to="/earn" />
+      <div className={`relative grid grid-cols-[1fr_1fr_1.9fr_1fr_1fr] ios-tabbar ${compact ? "h-[66px]" : "h-[78px]"}`}>
+        <NavItem icon={ART.rocket} label="Upgrade" to="/upgrade" />
+        <NavItem icon={ART.bag} label="Earn" to="/earn" />
         <div className="relative">
           <div className={`absolute left-1/2 -translate-x-1/2 ${compact ? "top-[-26px] h-[80px] w-[80px]" : "top-[-58px] h-[112px] w-[112px]"}`}>
             {center ?? (
-              <Link to="/" className="chunk-btn h-full w-full rounded-[2rem] bg-gradient-to-b from-sun to-sun-dark">
+              <Link to="/" className="ios-spin !inset-0">
                 <span className={`font-display leading-none ${compact ? "text-xl" : "text-2xl"}`}>SPIN</span>
               </Link>
             )}
           </div>
-          <div className={`absolute inset-x-2 flex items-center rounded-full border border-white/15 bg-ink/60 pl-4 pr-2 backdrop-blur-md ${compact ? "bottom-2 h-[20px]" : "bottom-2.5 h-[22px]"}`}>
+          <div className={`absolute inset-x-2 flex items-center rounded-full border border-border bg-ink/80 pl-4 pr-2 backdrop-blur-md ${compact ? "bottom-2 h-[20px]" : "bottom-2.5 h-[22px]"}`}>
             <img src={ART.bolt} alt="" className={`absolute left-1 object-contain ${compact ? "h-5 w-5" : "h-6 w-6"}`} />
             <div className={`flex-1 overflow-hidden rounded-full bg-ink/70 ${compact ? "h-3" : "h-3.5"}`}>
-              <div className="h-full rounded-full bg-gradient-to-r from-sky to-grape transition-[width] duration-300" style={{ width: `${pct}%` }} />
+              <div className="h-full rounded-full bg-gradient-to-r from-sky to-primary transition-[width] duration-300" style={{ width: `${pct}%` }} />
             </div>
             <span className={`absolute inset-0 grid place-items-center font-display leading-none text-cream ${compact ? "pl-2.5 text-[11px]" : "pl-3 text-[12px]"}`}>{s.spins}/{MAX_SPINS}</span>
           </div>
         </div>
         <NavItem icon={nftIcon} label="NFT" to="/nft" />
-        <NavItem icon={ART.wheel} label="WHEEL" to="/wheel" />
+        <NavItem icon={ART.wheel} label="Wheel" to="/wheel" />
       </div>
     </nav>
   );
