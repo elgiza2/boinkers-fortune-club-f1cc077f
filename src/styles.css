@@ -722,3 +722,58 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 .slots-offer-dialog .slots-offer-loot-empty { color:var(--muted-foreground); text-align:center; padding:16px; font-size:13px; }
 .slots-offer-dialog .slots-offer-fusion-copy { color:var(--cream); font-family:var(--font-sans); font-weight:900; text-shadow:0 2px 10px oklch(0 0 0 / .6); }
 .slots-offer-dialog .slots-offer-fusion-prize strong { color:var(--cream); text-shadow:0 2px 8px oklch(0 0 0 / .6); }
+
+/* Collection milestones and fixed-content bundles. */
+.slots-event-entries { display:flex; justify-content:center; gap:12px; padding:10px 4px 4px; }
+.slots-event-group { display:flex; gap:6px; min-width:0; }
+.slots-event-offers { border-left:1px solid var(--border); padding-left:12px; }
+.slots-offer-clean { display:flex; flex-direction:column; gap:12px; top:max(calc(env(safe-area-inset-top) + 10px),calc(var(--tg-safe-top,0px) + 10px),calc(var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px) + 10px)); bottom:max(calc(env(safe-area-inset-bottom) + 10px),calc(var(--tg-safe-area-inset-bottom,0px) + 10px)); }
+.slots-offer-heading { flex:none; padding:4px 36px 0 4px; }
+.slots-offer-kind { display:block; color:var(--muted-foreground); font-size:10px; font-weight:800; }
+.slots-offer-clean .slots-offer-title { text-align:left; font-size:24px; line-height:1.2; letter-spacing:0; }
+.slots-offer-summary { display:flex; align-items:center; gap:10px; flex:none; padding:8px 2px; }
+.slots-offer-summary > img { width:46px; height:46px; object-fit:contain; }
+.slots-offer-summary > div { display:flex; flex-direction:column; gap:2px; }
+.slots-offer-summary strong { font-size:19px; line-height:1.2; }
+.slots-offer-summary span { font-size:10px; color:var(--muted-foreground); }
+.slots-offer-completion { margin-left:auto; text-align:right; }
+.slots-offer-personal-progress { flex:none; display:flex; gap:10px; align-items:center; color:var(--muted-foreground); font-size:12px; }
+.slots-offer-personal-progress progress { width:100%; min-width:0; height:6px; accent-color:var(--primary); }
+.slots-offer-clean .slots-offer-trail-scroll { flex:1; min-height:0; padding:2px; }
+.slots-offer-clean .slots-offer-trail { gap:8px; grid-auto-flow:row; }
+.slots-offer-clean .slots-offer-step { border-radius:8px; padding:5px; gap:4px; min-height:0; }
+.slots-offer-stage { align-self:flex-start; color:var(--muted-foreground); font-size:10px; font-weight:700; line-height:1; }
+.slots-offer-clean .slots-offer-reward { color:var(--foreground); text-shadow:none; }
+.slots-offer-clean .slots-offer-reward > span { display:flex; align-items:center; justify-content:center; gap:4px; }
+.slots-offer-clean .slots-offer-step .slots-offer-reward-large { flex:1; font-size:16px; }
+.slots-offer-clean .slots-offer-step .slots-offer-reward-large img { width:32px; height:32px; }
+.slots-offer-clean .slots-offer-step-action { border-radius:6px; height:30px; min-height:30px; font-size:10px; letter-spacing:0; }
+.slots-offer-clean .slots-offer-step-action svg { fill:none; color:currentColor; width:12px; height:12px; }
+.slots-offer-clean .slots-offer-step-action .price-tag { gap:2px; font-size:10px; }
+.slots-offer-clean .slots-offer-step-action .price-tag img { width:12px; height:12px; }
+.slots-offer-clean .slots-offer-countdown { font-size:11px; letter-spacing:0; }
+.slots-offer-bundle-art { flex:1; min-height:0; width:100%; object-fit:contain; border-radius:8px; }
+.slots-offer-bundle-icon { max-height:32%; }
+.slots-offer-bundle-rewards { flex:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); border-block:1px solid var(--border); padding:14px 0; gap:16px; }
+.slots-offer-bundle-rewards > div { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.slots-offer-bundle-rewards img { width:54px; height:54px; object-fit:contain; }
+.slots-offer-bundle-rewards strong { font-size:25px; }
+.slots-offer-bundle-rewards span { font-size:12px; color:var(--muted-foreground); }
+.slots-offer-clean .slots-offer-buy { flex:none; border-radius:8px; }
+.fire-pass-reward-pair { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.fire-pass-reward-pair > span { display:flex; align-items:center; gap:4px; }
+.fire-pass-page .fire-pass-reward-pair img { width:26px; height:26px; object-fit:contain; }
+.fire-pass-page .fire-pass-reward-pair strong { font-size:16px; color:var(--foreground); text-shadow:none; }
+.fire-pass-sub-card { height:auto; }
+.fire-pass-page .fire-pass-sub-note { color:var(--muted-foreground); }
+@media (max-height:640px) {
+  .slots-offer-clean { gap:6px; padding:10px; }
+  .slots-offer-clean .slots-offer-title { font-size:20px; }
+  .slots-offer-summary { padding:2px; }
+  .slots-offer-summary > img { width:32px; height:32px; }
+  .slots-offer-summary strong { font-size:16px; }
+  .slots-offer-clean .slots-offer-trail { gap:5px; }
+  .slots-offer-clean .slots-offer-step .slots-offer-reward-large img { width:22px; height:22px; }
+  .slots-offer-clean .slots-offer-step .slots-offer-reward-large { font-size:14px; }
+  .slots-offer-clean .slots-offer-step-action { height:26px; min-height:26px; }
+}
