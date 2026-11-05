@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Crown, Gift, Ticket } from "lucide-react";
-import hero from "@/assets/hero-character.png";
+import hero from "@/assets/holo-mascot-wave.png";
 import { Screen } from "@/components/game/Shell";
 import { useGame, fmt, beep, haptic, passNeed, currentEvent, evNeed, evReward, clock, prizeTier, applyPrizeMult } from "@/lib/game";
 import { SpinsOffer } from "@/components/game/SpinsOffer";
@@ -14,9 +14,9 @@ import { ART, SYM_ART, TOKEN_ART } from "@/lib/art";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Solo Slots — Spin & Win" },
+      { title: "Holo — Spin, Merge & Win" },
       { name: "description", content: "Spin the cartoon slot machine and win coins, spins and tickets." },
-      { property: "og:title", content: "Solo Slots — Spin & Win" },
+      { property: "og:title", content: "Holo — Spin, Merge & Win" },
       { property: "og:description", content: "Spin the cartoon slot machine and win coins, spins and tickets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 type Cell = string; // base symbol, "token" (main event) or a live event key
-type WinInfo = { coins: number; spins: number; tickets: number; ton: number; k: number; mult: number; tok?: { key: string; n: number } };
+type WinInfo = { coins: number; spins: number; tickets: number; ton: number; solo: number; k: number; mult: number; tok?: { key: string; n: number } };
 type Burst = { img: string; left: number; top: number; size: number; tx: number; ty: number; s: number; rot: number; dur: number; delay: number };
 
 const rand = (seed: number) => () => {
@@ -39,6 +39,8 @@ function burstParts(p: WinInfo): Burst[] {
   const rng = rand(p.k + 1);
   const kinds: { img: string; n: number; size: number }[] = [];
   if (p.coins) kinds.push({ img: ART.coin, n: Math.min(18, 9 + Math.floor(Math.log10(p.coins + 1) * 3)), size: 28 });
+  if (p.tok) kinds.push({ img: TOKEN_ART[p.tok.key]!, n: Math.min(10, 4 + p.tok.n), size: 32 });
+  if (p.solo) kinds.push({ img: ART.gem, n: 6, size: 26 });
   if (p.spins) kinds.push({ img: ART.bolt, n: 3, size: 24 });
   if (p.tickets) kinds.push({ img: ART.wheelSpin, n: 3, size: 26 });
   if (p.ton) kinds.push({ img: ART.ton, n: 5, size: 30 });
@@ -124,6 +126,10 @@ function Home() {
       beep(s.sound, 300 + i * 120);
       if (i === 2) {
         const p = payout(result, bet);
+        const tokKey = result.find((x) => x === "token" || isLive(x));
+        const tokN = tokKey ? result.filter((x) => x === tokKey).length * bet : 0;
+        // Tokens are the better prize: they replace the small consolation coins.
+        if (tokN && !p.spins && !p.tickets && !p.solo && p.coins === 150 * bet) p.coins = 0;
         const mainHits = result.filter((x) => x === "token").length * bet;
         const tokenCoins = mainHits ? gainEvent(mainHits) : 0;
         const hits: Record<string, number> = {};
@@ -133,10 +139,10 @@ function Home() {
         const luck = prizeTier(s.spins);
         const total = applyPrizeMult({ ...p, coins: p.coins + tokenCoins }, luck.mult);
         grant(total);
-        if (total.coins || total.spins || total.tickets || total.ton) {
+        if (total.coins || total.spins || total.tickets || total.ton || total.solo || tokN) {
           setShake(true); setTimeout(() => setShake(false), 650);
           beep(s.sound, 900, 0.25);
-          const info: WinInfo = { ...total, k: Date.now(), mult: luck.mult };
+          const info: WinInfo = { ...total, k: Date.now(), mult: luck.mult, ...(tokKey ? { tok: { key: tokKey === "token" ? currentEvent(Date.now()).key : tokKey, n: tokN } } : {}) };
           setWin(info); setPop(info);
           setTimeout(() => setPop((cur) => (cur?.k === info.k ? null : cur)), 3200);
         }
@@ -149,22 +155,21 @@ function Home() {
     return undefined;
   }); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const held = useRef(false);
   const spinBtn = (
     <div className="relative h-full w-full">
-      <div className="ios-spin-ring" />
       <button
-        onClick={() => { if (auto) setAuto(false); else spin(); }}
-        onPointerDown={() => { holdT.current = setTimeout(() => { setAuto(true); toast("Autospin ON — tap to stop"); }, 700); }}
-        onPointerUp={() => clearTimeout(holdT.current)} onPointerLeave={() => clearTimeout(holdT.current)}
-        aria-label="Spin"
-        className={`ios-spin ${auto ? "ios-spin-auto" : ""}`}
+        onClick={() => { if (held.current) { held.current = false; return; } if (auto) setAuto(false); else spin(); }}
+        onPointerDown={() => { held.current = false; holdT.current = setTimeout(() => { held.current = true; setAuto(true); haptic(); toast("Autospin on — tap to stop"); }, 600); }}
+        onPointerUp={() => clearTimeout(holdT.current)} onPointerLeave={() => clearTimeout(holdT.current)} onPointerCancel={() => clearTimeout(holdT.current)}
+        onContextMenu={(e) => e.preventDefault()}
+        aria-label={auto ? "Stop autospin" : "Spin, hold for autospin"}
+        className={`holo-spin ${auto ? "holo-spin-auto" : ""}`}
       >
-        <span className="flex flex-col items-center">
-          <span className="font-display text-[26px] leading-none">{auto ? "STOP" : "SPIN"}</span>
-          <span className="mt-1 text-[8px] font-semibold uppercase tracking-wider opacity-80">Hold for auto</span>
-        </span>
+        <span className="holo-spin-label">{auto ? "STOP" : "SPIN"}</span>
+        <span className="holo-spin-sub">{auto ? "Auto on" : "Hold for auto"}</span>
       </button>
-      <button onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)} aria-label="Change bet" className="ios-bet">x{bet}</button>
+      <button onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)} aria-label={`Bet x${bet}, tap to change`} className="holo-bet">x{bet}</button>
     </div>
   );
 
@@ -178,7 +183,13 @@ function Home() {
               {win ? (
                 <div key={win.k} className="animate-pop flex w-full items-center justify-center gap-2">
                   <span className="font-display text-xs tracking-wider text-cream/70">YOU WON</span>
-                  {([["coins", ART.coin], ["spins", ART.bolt], ["tickets", ART.wheelSpin], ["ton", ART.ton]] as const).filter(([k]) => win[k] > 0).map(([k, img]) => (
+                  {win.tok && (
+                    <span className="flex items-center gap-1 rounded-full bg-primary/15 py-0.5 pl-0.5 pr-3 ring-2 ring-primary/40">
+                      <img src={TOKEN_ART[win.tok.key]} alt="Event tokens" className="h-8 w-8 object-contain" />
+                      <span className="font-display text-lg leading-none text-primary">+{win.tok.n}</span>
+                    </span>
+                  )}
+                  {([["coins", ART.coin], ["solo", ART.gem], ["spins", ART.bolt], ["tickets", ART.wheelSpin], ["ton", ART.ton]] as const).filter(([k]) => win[k] > 0).map(([k, img]) => (
                     <span key={k} className="flex items-center gap-1 rounded-full bg-cream/15 py-0.5 pl-0.5 pr-2.5">
                       <img src={img} alt="" className="h-7 w-7 object-contain" />
                       <span className="font-display text-base leading-none text-sun">+{k === "ton" ? win[k] : fmt(win[k])}</span>

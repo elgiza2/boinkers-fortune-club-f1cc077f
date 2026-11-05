@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Check, Clock, LockKeyhole, Moon, Ticket, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import headerArt from "@/assets/fire-pass-header.jpg";
+import headerArt from "@/assets/holo-royal-header.jpg";
 import { ART } from "@/lib/art";
 import { usePurchase } from "@/lib/holo/use-purchase";
 import { useGame, passGift, passNeed, fmt } from "@/lib/game";
@@ -12,9 +12,9 @@ import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayTogg
 export const Route = createFileRoute("/pass")({
   head: () => ({
     meta: [
-      { title: "Fire Pass — Solo Slots" },
+      { title: "Fire Pass — Holo" },
       { name: "description", content: "Track your Fire Pass progress and explore free, premium and royal spin rewards." },
-      { property: "og:title", content: "Fire Pass — Solo Slots" },
+      { property: "og:title", content: "Fire Pass — Holo" },
       { property: "og:description", content: "Free, premium and royal reward tracks for your spins." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -39,7 +39,7 @@ function PassPage() {
   return (
     <div className="fire-pass-page">
       <header className="fire-pass-header">
-        <img src={headerArt} alt="Yellow masked character under the moon" className="fire-pass-header-art" />
+        <img src={headerArt} alt="Holo mascot with a crown on gold coins" className="fire-pass-header-art" />
         <Button asChild variant="ghost" size="icon" className="fire-pass-close" aria-label="Close Fire Pass"><Link to="/"><X /></Link></Button>
         <div className="fire-pass-title"><h1>Fire Pass</h1><span className="fire-pass-level"><Clock /> {left}</span></div>
       </header>

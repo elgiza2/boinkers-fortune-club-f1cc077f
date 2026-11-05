@@ -83,10 +83,12 @@ export const PASS_MS = 4 * 24 * 3600_000;
 export function passNeed(level: number) { return Math.round(100 * Math.pow(1.35, level - 1)); }
 /** Gift for reaching a new pass level. Premium doubles spins + a ticket; Royal quadruples + 2 tickets. Coins never come from the pass — slots only. */
 export function passGift(level: number, premium: boolean, royal = false) {
-  const spins = 5 + Math.floor(level / 2);
-  if (royal) return { coins: 0, spins: spins * 4, tickets: 2 };
-  if (premium) return { coins: 0, spins: spins * 2, tickets: 1 };
-  return { coins: 0, spins, tickets: 0 };
+  // Big spin piles plus wheel spins on every track keep players spinning.
+  const spins = 20 + level * 4;
+  const wheel = level % 3 === 0 ? 1 : 0;
+  if (royal) return { coins: 0, spins: spins * 4, tickets: 3 + wheel * 2 };
+  if (premium) return { coins: 0, spins: spins * 2, tickets: 1 + wheel };
+  return { coins: 0, spins, tickets: wheel };
 }
 /** Add XP (1 per spin used), rolling over levels. Returns new xp/level and total gifts earned. */
 export function addPassXp(xp: number, level: number, add: number, premium: boolean, royal = false) {
@@ -104,8 +106,9 @@ export function prizeTier(spins: number) {
   return { mult, next: nextStep === null ? null : +(1 + nextStep * 0.2).toFixed(1), spinsToNext: nextStep === null ? 0 : nextStep * PRIZE_STEP - Math.max(0, spins) };
 }
 /** Scale a slot payout by the luck multiplier, rounding up so a bigger balance never pays less. */
-export function applyPrizeMult(win: { coins: number; spins: number; tickets: number; ton: number }, mult: number) {
+export function applyPrizeMult(win: { coins: number; spins: number; tickets: number; ton: number; solo?: number }, mult: number) {
   return {
+    solo: Math.round((win.solo ?? 0) * mult),
     coins: Math.round((win.coins * mult) / 10) * 10,
     spins: Math.ceil(win.spins * mult),
     tickets: Math.ceil(win.tickets * mult),
@@ -208,7 +211,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     try {
       const ref = new URLSearchParams(window.location.search).get("ref") ?? tgStartParam() ?? undefined;
       const res = await holoSync({ data: { initData, state: first ? null : (sRef.current as unknown as Record<string, unknown>), ref: ref ?? undefined } });
-      if (first && res.saved && !localStorage.getItem(KEY + ":synced")) setS({ ...initial(), ...(res.saved as Partial<GameState>) });
+      if (first && res.saved && !localStorage.getItem(KEY + ":synced")) setS({ ...initial(), ...(JSON.parse(res.saved) as Partial<GameState>) });
       if (first) localStorage.setItem(KEY + ":synced", "1");
       setRole(res.role);
       applyPending(res.pending);

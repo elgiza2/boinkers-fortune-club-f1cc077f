@@ -22,6 +22,6 @@ describe("luck tiers — the more spins the player holds, the bigger the prizes"
   });
   it("scaling rounds up so a bigger balance never pays less", () => {
     expect(applyPrizeMult({ coins: 5000, spins: 25, tickets: 3, ton: 0.05 }, 1.4))
-      .toEqual({ coins: 7000, spins: 35, tickets: 5, ton: 0.07 });
+      .toEqual({ solo: 0, coins: 7000, spins: 35, tickets: 5, ton: 0.07 });
   });
 });

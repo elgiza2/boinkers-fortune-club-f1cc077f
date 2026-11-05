@@ -1,15 +1,14 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { Volume2, VolumeX, X, Menu, Wallet } from "lucide-react";
+import { Volume2, VolumeX, X, Menu, Wallet, Sparkles, Gift, Gem, FerrisWheel, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
-import hero from "@/assets/hero-character.png";
+import hero from "@/assets/holo-mascot-wave.png";
 import { fmt, useGame, MAX_SPINS } from "@/lib/game";
 import { ART } from "@/lib/art";
 import { getTonWallet } from "@/lib/ton-wallet";
-import nftIcon from "@/assets/nav-nft.png";
 
-type TgWebApp = { safeAreaInset?: { top?: number }; contentSafeAreaInset?: { top?: number }; initDataUnsafe?: { user?: { first_name?: string; username?: string } }; onEvent?: (e: string, cb: () => void) => void };
+type TgWebApp = { safeAreaInset?: { top?: number }; contentSafeAreaInset?: { top?: number }; initDataUnsafe?: { user?: { first_name?: string; username?: string; photo_url?: string } }; onEvent?: (e: string, cb: () => void) => void };
 function useTelegramSafeTop() {
   useEffect(() => {
     const tg = (window as unknown as { Telegram?: { WebApp?: TgWebApp } }).Telegram?.WebApp;
@@ -27,17 +26,19 @@ export function TopBar() {
   const { s } = useGame();
   const [settings, setSettings] = useState(false);
   const [name, setName] = useState("Player");
+  const [photo, setPhoto] = useState<string | null>(null);
   useTelegramSafeTop();
   useEffect(() => {
     const u = (window as unknown as { Telegram?: { WebApp?: TgWebApp } }).Telegram?.WebApp?.initDataUnsafe?.user;
     if (u?.first_name || u?.username) setName(u.username ?? u.first_name ?? "Player");
+    if (u?.photo_url) setPhoto(u.photo_url);
   }, []);
   return (
     <header className="safe-top ios-header relative z-30 shrink-0">
       <div className="grid h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-2.5">
         <div className="flex min-w-0 items-center gap-1.5">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-border bg-ink">
-            <img src={hero} alt="" className="h-full w-full scale-125 object-cover object-top" />
+            {photo ? <img src={photo} alt={name} referrerPolicy="no-referrer" className="h-full w-full object-cover" onError={() => setPhoto(null)} /> : <img src={hero} alt="" className="h-full w-full scale-110 object-contain" />}
           </div>
           <div className="min-w-0 leading-none">
             <div className="max-w-[64px] truncate font-display text-[11px] text-cream">{name}</div>
@@ -123,17 +124,13 @@ function SettingsSheet({ open, onClose }: { open: boolean; onClose: () => void }
 }
 
 type To = "/" | "/upgrade" | "/earn" | "/nft" | "/wheel";
-function NavItem({ icon, label, to }: { icon: string; label: string; to: To }) {
+function NavItem({ icon: Icon, label, to }: { icon: LucideIcon; label: string; to: To }) {
   return (
-    <Link
-      to={to}
-      activeOptions={{ exact: true }}
-      className="group flex flex-col items-center justify-center gap-1"
-    >
-      <span className="nav-icon grid h-10 w-10 place-items-center rounded-2xl">
-        <img src={icon} alt="" className="nav-icon-img h-9 w-9 object-contain" />
+    <Link to={to} activeOptions={{ exact: true }} className="group flex flex-col items-center justify-center gap-1">
+      <span className="nav-icon grid h-10 w-10 place-items-center rounded-2xl text-muted-foreground transition-colors group-data-[status=active]:text-primary">
+        <Icon className="nav-icon-img h-[22px] w-[22px]" strokeWidth={2.3} />
       </span>
-      <span className="text-[10px] font-semibold capitalize leading-none text-muted-foreground transition-colors group-data-[status=active]:text-primary">{label}</span>
+      <span className="text-[10px] font-semibold leading-none text-muted-foreground transition-colors group-data-[status=active]:text-primary">{label}</span>
     </Link>
   );
 }
@@ -147,12 +144,12 @@ export function BottomNav({ center }: { center?: ReactNode }) {
   return (
     <nav className="relative z-30 pb-[env(safe-area-inset-bottom)]">
       <div className={`relative grid grid-cols-[1fr_1fr_1.9fr_1fr_1fr] ios-tabbar ${compact ? "h-[66px]" : "h-[78px]"}`}>
-        <NavItem icon={ART.rocket} label="Upgrade" to="/upgrade" />
-        <NavItem icon={ART.bag} label="Earn" to="/earn" />
+        <NavItem icon={Sparkles} label="Upgrade" to="/upgrade" />
+        <NavItem icon={Gift} label="Earn" to="/earn" />
         <div className="relative">
           <div className={`absolute left-1/2 -translate-x-1/2 ${compact ? "top-[-26px] h-[80px] w-[80px]" : "top-[-58px] h-[112px] w-[112px]"}`}>
             {center ?? (
-              <Link to="/" className="ios-spin !inset-0">
+              <Link to="/" className="holo-spin !inset-1">
                 <span className={`font-display leading-none ${compact ? "text-xl" : "text-2xl"}`}>SPIN</span>
               </Link>
             )}
@@ -165,8 +162,8 @@ export function BottomNav({ center }: { center?: ReactNode }) {
             <span className={`absolute inset-0 grid place-items-center font-display leading-none text-cream ${compact ? "pl-2.5 text-[11px]" : "pl-3 text-[12px]"}`}>{s.spins}/{MAX_SPINS}</span>
           </div>
         </div>
-        <NavItem icon={nftIcon} label="NFT" to="/nft" />
-        <NavItem icon={ART.wheel} label="Wheel" to="/wheel" />
+        <NavItem icon={Gem} label="NFT" to="/nft" />
+        <NavItem icon={FerrisWheel} label="Wheel" to="/wheel" />
       </div>
     </nav>
   );

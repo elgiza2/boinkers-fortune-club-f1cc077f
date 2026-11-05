@@ -10,9 +10,12 @@ describe("spin pass", () => {
     const f = passGift(4, false), p = passGift(4, true);
     expect(p.spins).toBe(f.spins * 2); expect(p.tickets).toBe(1); expect(f.tickets).toBe(0);
   });
+  it("free track gives big spin piles and a wheel spin every 3rd level", () => {
+    expect(passGift(4, false).spins).toBe(36); expect(passGift(3, false).tickets).toBe(1); expect(passGift(4, false).tickets).toBe(0);
+  });
   it("royal gifts quadruple the spins and add two tickets", () => {
     const f = passGift(4, false), r = passGift(4, true, true);
-    expect(r.spins).toBe(f.spins * 4); expect(r.tickets).toBe(2);
+    expect(r.spins).toBe(f.spins * 4); expect(r.tickets).toBe(3); expect(passGift(6, true, true).tickets).toBe(5);
   });
   it("pass gifts never contain coins — coins come from slots only", () => {
     for (const level of [1, 5, 12]) for (const prem of [false, true]) for (const royal of [false, true]) {
