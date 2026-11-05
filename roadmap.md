@@ -20,8 +20,9 @@
 - [ ] Speed: cache images locally on device (service worker), remove unused libraries
 - [ ] NFT page full clean redesign
 - [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
-- [ ] Fire Pass & event rewards: mix of big spin amounts + wheel spins (not wheel only)
+- [x] Fire Pass rewards (events still to review): mix of big spin amounts + wheel spins (not wheel only)
 - [ ] Daily AI-generated images: news post, splash, notifications, each event
 - [ ] AI-driven rotating events & offers
 - [ ] Publish (via Lovable publish; Vercel not supported for this app build)
 - [ ] New character art, splash page, Royal Pass art, notification & daily event images
+- [x] Show Telegram profile photo in top bar

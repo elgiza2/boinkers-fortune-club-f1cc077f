@@ -9,7 +9,7 @@ import { ART } from "@/lib/art";
 import { getTonWallet } from "@/lib/ton-wallet";
 import nftIcon from "@/assets/nav-nft.png";
 
-type TgWebApp = { safeAreaInset?: { top?: number }; contentSafeAreaInset?: { top?: number }; initDataUnsafe?: { user?: { first_name?: string; username?: string } }; onEvent?: (e: string, cb: () => void) => void };
+type TgWebApp = { safeAreaInset?: { top?: number }; contentSafeAreaInset?: { top?: number }; initDataUnsafe?: { user?: { first_name?: string; username?: string; photo_url?: string } }; onEvent?: (e: string, cb: () => void) => void };
 function useTelegramSafeTop() {
   useEffect(() => {
     const tg = (window as unknown as { Telegram?: { WebApp?: TgWebApp } }).Telegram?.WebApp;
@@ -27,17 +27,19 @@ export function TopBar() {
   const { s } = useGame();
   const [settings, setSettings] = useState(false);
   const [name, setName] = useState("Player");
+  const [photo, setPhoto] = useState<string | null>(null);
   useTelegramSafeTop();
   useEffect(() => {
     const u = (window as unknown as { Telegram?: { WebApp?: TgWebApp } }).Telegram?.WebApp?.initDataUnsafe?.user;
     if (u?.first_name || u?.username) setName(u.username ?? u.first_name ?? "Player");
+    if (u?.photo_url) setPhoto(u.photo_url);
   }, []);
   return (
     <header className="safe-top ios-header relative z-30 shrink-0">
       <div className="grid h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-2.5">
         <div className="flex min-w-0 items-center gap-1.5">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-border bg-ink">
-            <img src={hero} alt="" className="h-full w-full scale-125 object-cover object-top" />
+            {photo ? <img src={photo} alt={name} referrerPolicy="no-referrer" className="h-full w-full object-cover" onError={() => setPhoto(null)} /> : <img src={hero} alt="" className="h-full w-full scale-110 object-contain" />}
           </div>
           <div className="min-w-0 leading-none">
             <div className="max-w-[64px] truncate font-display text-[11px] text-cream">{name}</div>
