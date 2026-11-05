@@ -17,16 +17,19 @@
 - [ ] Many character variants from user's uploaded Holo character, spread across the app
 - [ ] Fix app colours (most look wrong)
 - [ ] Redesign the spin button
-- [ ] Speed: cache images locally on device (service worker), remove unused libraries
-- [ ] NFT page full clean redesign
+- [x] Speed: cache images locally on device (service worker), remove unused libraries
+- [x] NFT page full clean redesign
 - [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
 - [x] Fire Pass rewards (events still to review): mix of big spin amounts + wheel spins (not wheel only)
-- [ ] Daily AI-generated images: news post, splash, notifications, each event
+- [x] Daily AI-generated images (made by job; daily timer still open): news post, splash, notifications, each event
 - [ ] AI-driven rotating events & offers
 - [ ] Publish (via Lovable publish; Vercel not supported for this app build)
 - [ ] New character art, splash page, Royal Pass art, notification & daily event images
 - [x] Show Telegram profile photo in top bar
-- [ ] Hold-for-autospin must work reliably
-- [ ] Slots: more frequent/bigger wins + include our Holo coin (SOLO) in slot payouts
-- [ ] New bottom nav icons + header top safe area (Telegram fullscreen)
+- [x] Hold-for-autospin must work reliably
+- [x] Slots: more frequent/bigger wins + include our Holo coin (SOLO) in slot payouts
+- [x] New bottom nav icons + header top safe area (Telegram fullscreen)
 - [x] One token type per spin; token hits shown as the main win
+
+- [ ] Daily timer for posts/notifications/AI pictures (needs an outside scheduler after publishing)
+- [ ] Make bot admin in @holocom and member/admin in @holoik (join checks + posting)
