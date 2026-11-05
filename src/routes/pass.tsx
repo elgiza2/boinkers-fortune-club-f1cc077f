@@ -39,7 +39,7 @@ function PassPage() {
       <header className="fire-pass-header">
         <img src={headerArt} alt="Yellow masked character under the moon" className="fire-pass-header-art" />
         <Button asChild variant="ghost" size="icon" className="fire-pass-close" aria-label="Close Fire Pass"><Link to="/"><X /></Link></Button>
-        <div className="fire-pass-title"><h1>FIRE PASS</h1><span className="fire-pass-level"><Clock /> {left}</span></div>
+        <div className="fire-pass-title"><h1>Fire Pass</h1><span className="fire-pass-level"><Clock /> {left}</span></div>
       </header>
       <section className="fire-pass-progress" aria-label="Pass progress">
         <p>Spin the slot and progress!</p>

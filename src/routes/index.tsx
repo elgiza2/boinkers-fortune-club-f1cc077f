@@ -149,33 +149,20 @@ function Home() {
 
   const spinBtn = (
     <div className="relative h-full w-full">
-      {/* dark ring behind the diamond */}
-
-      <div className="absolute inset-[6px] rotate-45 rounded-[30px] border-[3px] border-ink bg-night" />
+      <div className="ios-spin-ring" />
       <button
         onClick={() => { if (auto) setAuto(false); else spin(); }}
         onPointerDown={() => { holdT.current = setTimeout(() => { setAuto(true); toast("Autospin ON — tap to stop"); }, 700); }}
         onPointerUp={() => clearTimeout(holdT.current)} onPointerLeave={() => clearTimeout(holdT.current)}
         aria-label="Spin"
-        className="group absolute inset-[13px] transition-transform active:scale-95"
+        className={`ios-spin ${auto ? "ios-spin-auto" : ""}`}
       >
-        <span
-          className={`absolute inset-0 rotate-45 rounded-[24px] border-[3px] border-ink ${auto ? "bg-berry" : "bg-gradient-to-b from-sun to-sun-dark"}`}
-          style={{ boxShadow: "inset 0 -7px 0 oklch(0 0 0 / .18), inset 0 5px 0 oklch(1 0 0 / .55), 0 4px 0 var(--ink)" }}
-        />
-        <span className="relative flex h-full flex-col items-center justify-center">
-          <span className="font-display text-[30px] leading-none text-cream text-outline">{auto ? "STOP" : "SPIN"}</span>
-          <span className="mt-1 font-display text-[8px] leading-tight text-ink/60">HOLD FOR<br />AUTOSPIN</span>
+        <span className="flex flex-col items-center">
+          <span className="font-display text-[26px] leading-none">{auto ? "STOP" : "SPIN"}</span>
+          <span className="mt-1 text-[8px] font-semibold uppercase tracking-wider opacity-80">Hold for auto</span>
         </span>
       </button>
-      <button
-        onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)}
-        aria-label="Change bet"
-        className="absolute -right-5 top-0 grid h-11 w-11 rotate-45 place-items-center rounded-[11px] border-[3px] border-ink bg-gradient-to-b from-sun to-sun-dark transition-transform active:scale-90"
-        style={{ boxShadow: "inset 0 -4px 0 oklch(0 0 0 / .18), inset 0 3px 0 oklch(1 0 0 / .5), 0 3px 0 var(--ink)" }}
-      >
-        <span className="-rotate-45 font-display text-base leading-none text-cream text-outline">x{bet}</span>
-      </button>
+      <button onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)} aria-label="Change bet" className="ios-bet">x{bet}</button>
     </div>
   );
 
@@ -230,7 +217,7 @@ function Home() {
             {/* reels */}
             <div className="mt-3 grid grid-cols-3 gap-2">
               {reels.map((sym, i) => (
-                <div key={i} className="slot-reel relative overflow-hidden rounded-[22px] bg-cream shadow-[inset_0_14px_14px_-10px_oklch(0_0_0/.3),inset_0_-14px_14px_-10px_oklch(0_0_0/.3)]">
+                <div key={i} className="slot-reel relative overflow-hidden rounded-[22px] bg-reel shadow-[inset_0_14px_14px_-10px_oklch(0_0_0/.3),inset_0_-14px_14px_-10px_oklch(0_0_0/.3)]">
                   {spinning[i] ? (
                     <div className="animate-reel flex flex-col items-center blur-[1px]">
                       {[...STRIP, ...STRIP].map((x, k) => <SymImg key={k} sym={x} className="slot-sym-spin" />)}

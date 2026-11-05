@@ -20,8 +20,8 @@ function Chip({ img, timer, label }: { img: string; timer: string; label: string
   return (
     <span className="relative flex w-[62px] shrink-0 flex-col items-center">
       <img src={img} alt="" className="h-11 w-11 object-contain drop-shadow-[0_3px_0_var(--ink)]" />
-      <span className="mt-0.5 rounded-full bg-cream px-1.5 font-display text-[9px] leading-[14px] text-berry">{timer}</span>
-      <span className="mt-0.5 line-clamp-2 text-center font-display text-[9px] leading-[10px] text-cream text-outline">{label}</span>
+      <span className="mt-0.5 rounded-full border border-border bg-ink/70 px-1.5 text-[9px] font-bold leading-[14px] text-berry backdrop-blur-md">{timer}</span>
+      <span className="mt-0.5 line-clamp-2 text-center text-[9px] font-semibold leading-[11px] text-cream">{label}</span>
     </span>
   );
 }
