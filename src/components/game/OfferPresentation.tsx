@@ -1,3 +1,4 @@
+import { usePurchase } from "@/lib/holo/use-purchase";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { ArrowRight, ArrowUp, Check, ChevronDown, Lock, Timer, X } from "lucide-react";
@@ -72,12 +73,13 @@ function EventPresentation({ def, now, pay }: { def: EventDef; now: number; pay:
   </>;
 }
 function PaidPresentation({ offer, now, pay }: { offer: Offer; now: number; pay: PayCurrency }) {
-  const [notice, setNotice] = useState(false);
-  const payment = () => setNotice(true);
+  const { buy } = usePurchase();
+  const notice = false;
+  const payment = () => void buy(`offer:${offer.key}`, pay === "ton" ? "gram" : "stars");
   if (offer.key === "starter") return <>
     <div className="slots-offer-fusion-poster"><img src={fusionScene} alt="Masked hero and knight joining fingers in a lightning burst" width={768} height={1024} /><div className="slots-offer-fusion-copy">COMPLETE ANY<br /><em>JUST A SQUIRE</em><br />CHAPTER NOW!</div><div className="slots-offer-fusion-prize"><Reward tier={{ need: 0, reward: { spins: offer.spins } }} large /><Reward tier={{ need: 0, reward: { tickets: offer.tickets } }} large /></div></div>
     <Button className="slots-offer-action slots-offer-buy" onClick={payment}><PriceTag ton={offer.ton} currency={pay} /></Button>
-    {notice && <p role="status" className="slots-offer-notice">Payments are not connected yet — nothing has been charged.</p>}<Countdown ms={offer.endsIn} now={now} />
+    {notice && <p role="status" className="slots-offer-notice"></p>}<Countdown ms={offer.endsIn} now={now} />
   </>;
   const upcoming = currentOffers(now + offer.endsIn).find(o => o.key === offer.key);
   const bundle = (value: Offer, locked: boolean) => {
@@ -88,6 +90,6 @@ function PaidPresentation({ offer, now, pay }: { offer: Offer; now: number; pay:
   return <>
     <div className="slots-offer-sale-subtitle">SPINS + WHEEL SPINS</div>
     <div className="slots-offer-sale-scroll">{bundle(offer, false)}<ChevronDown className="slots-offer-sale-arrow" /><div className="slots-offer-sale-panel slots-offer-sale-free"><div className="slots-offer-sale-chests">{[0,1,2,3,4].map(i => <img key={i} src={ART.chest} alt="Locked chest" className={`slots-offer-chest-${i}`} />)}</div><Button className="slots-offer-action slots-offer-sale-buy" disabled>FREE <Lock /></Button></div><ChevronDown className="slots-offer-sale-arrow" />{upcoming && bundle(upcoming, true)}</div>
-    {notice && <p role="status" className="slots-offer-notice">Payments are not connected yet — nothing has been charged.</p>}<Countdown ms={offer.endsIn} now={now} />
+    {notice && <p role="status" className="slots-offer-notice"></p>}<Countdown ms={offer.endsIn} now={now} />
   </>;
 }
