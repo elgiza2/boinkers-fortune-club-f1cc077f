@@ -25,12 +25,13 @@ export const Route = createFileRoute("/pass")({
 function PassPage() {
   const { s } = useGame();
   const { buy } = usePurchase();
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(0);
   useEffect(() => {
+    setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, []);
-  const left = passTimeLeft(s.passEndsAt - now);
+  const left = now ? passTimeLeft(s.passEndsAt - now) : "--";
   const firstLevel = Math.max(2, s.passLevel - 2);
   const levels = Array.from({ length: 20 }, (_, i) => firstLevel + i);
   const premiumActive = s.premium || s.royal;
