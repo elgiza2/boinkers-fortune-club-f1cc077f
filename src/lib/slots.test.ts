@@ -1,30 +1,27 @@
 import { describe, it, expect } from "vitest";
-import { payout, PAYTABLE } from "./slots";
+import { payout } from "./slots";
 
 describe("slots payout rules", () => {
-  it("pays only when a symbol comes 3 times", () => {
-    expect(payout(["coin", "coin", "coin"], 1).coins).toBe(5000);
-    expect(payout(["chest", "chest", "chest"], 1).coins).toBe(20000);
-    expect(payout(["bolt", "bolt", "bolt"], 1).spins).toBe(25);
+  it("three of a kind pays the big prize", () => {
+    expect(payout(["coin", "coin", "coin"], 1).coins).toBe(10000);
+    expect(payout(["bolt", "bolt", "bolt"], 1).spins).toBe(50);
     expect(payout(["wheel", "wheel", "wheel"], 1).tickets).toBe(3);
-    expect(payout(["gem", "gem", "gem"], 1).coins).toBe(10000);
   });
-
-  it("never pays for 2 of a kind — every symbol needs 3, except tokens", () => {
-    for (const row of PAYTABLE) {
-      const other = row.sym === "chest" ? "bolt" : "chest";
-      const w = payout([row.sym, row.sym, other], 1);
-      expect(w.coins).toBe(100); // only the consolation coins, no symbol prize
-      expect(w.spins).toBe(0);
-      expect(w.tickets).toBe(0);
-    }
+  it("gems pay SOLO, the Holo coin", () => {
+    expect(payout(["gem", "gem", "gem"], 1).solo).toBe(500);
+    expect(payout(["gem", "gem", "coin"], 1).solo).toBe(40);
   });
-
-  it("still pays the small consolation when nothing matches", () => {
-    expect(payout(["coin", "bolt", "gem"], 1).coins).toBe(100);
+  it("two of a kind pays a smaller prize", () => {
+    expect(payout(["coin", "coin", "bolt"], 1).coins).toBe(800);
+    expect(payout(["bolt", "bolt", "chest"], 1).spins).toBe(3);
   });
-
+  it("no match still pays 150 consolation coins", () => {
+    expect(payout(["coin", "bolt", "gem"], 1)).toMatchObject({ coins: 150, spins: 0, solo: 0 });
+  });
   it("scales prizes with the bet", () => {
-    expect(payout(["coin", "coin", "coin"], 2).coins).toBe(10000);
+    expect(payout(["coin", "coin", "coin"], 3).coins).toBe(30000);
+  });
+  it("slots never award GRAM", () => {
+    expect(payout(["gem", "gem", "gem"], 10).ton).toBe(0);
   });
 });
