@@ -33,7 +33,8 @@ export function usePurchase() {
       }
       const nano = Math.round(r.amount * 1e9);
       const link = `https://app.tonkeeper.com/transfer/${r.address}?amount=${nano}&text=${encodeURIComponent(r.comment)}`;
-      wa()?.openLink ? wa()!.openLink!(link) : window.open(link, "_blank");
+      const openLink = wa()?.openLink;
+      if (openLink) openLink(link); else window.open(link, "_blank");
       toast(`Send ${r.amount} GRAM with comment ${r.comment}. We'll confirm automatically.`, { duration: 10000 });
       for (let i = 0; i < 36; i++) {
         await new Promise((res) => setTimeout(res, 5000));

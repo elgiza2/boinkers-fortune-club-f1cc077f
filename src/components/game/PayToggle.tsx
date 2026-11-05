@@ -2,7 +2,7 @@ import { ART } from "@/lib/art";
 import starsIcon from "@/assets/icon-stars.png";
 
 export type PayCurrency = "ton" | "stars";
-/** 1 GRAM trades for 100 Telegram Stars. */
+/** Legacy catalogue pricing factor, not a market exchange rate. */
 export const STARS_PER_TON = 100;
 export function starsFor(ton: number) { return Math.max(1, Math.round(ton * STARS_PER_TON)); }
 
@@ -19,8 +19,8 @@ export function PayToggle({ value, onChange, className = "" }: { value: PayCurre
 }
 
 /** Price rendered in the chosen currency. */
-export function PriceTag({ ton, currency, className = "" }: { ton: number; currency: PayCurrency; className?: string }) {
-  const stars = starsFor(ton);
+export function PriceTag({ ton, currency, stars: listedStars, className = "" }: { ton: number; currency: PayCurrency; stars?: number; className?: string }) {
+  const stars = listedStars ?? starsFor(ton);
   return <span className={`price-tag ${className}`}>
     <img src={currency === "ton" ? ART.ton : starsIcon} alt="" />
     {currency === "ton" ? `${ton} GRAM` : `${stars} STARS`}
