@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EarnRouteImport } from './routes/earn'
+import { Route as NftRouteImport } from './routes/nft'
+import { Route as PassRouteImport } from './routes/pass'
+import { Route as UpgradeRouteImport } from './routes/upgrade'
+import { Route as WheelRouteImport } from './routes/wheel'
+import { Route as EventKeyRouteImport } from './routes/event.$key'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EarnRoute = EarnRouteImport.update({
+  id: '/earn',
+  path: '/earn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NftRoute = NftRouteImport.update({
+  id: '/nft',
+  path: '/nft',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PassRoute = PassRouteImport.update({
+  id: '/pass',
+  path: '/pass',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpgradeRoute = UpgradeRouteImport.update({
+  id: '/upgrade',
+  path: '/upgrade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WheelRoute = WheelRouteImport.update({
+  id: '/wheel',
+  path: '/wheel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventKeyRoute = EventKeyRouteImport.update({
+  id: '/event/$key',
+  path: '/event/$key',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/earn': typeof EarnRoute
+  '/nft': typeof NftRoute
+  '/pass': typeof PassRoute
+  '/upgrade': typeof UpgradeRoute
+  '/wheel': typeof WheelRoute
+  '/event/$key': typeof EventKeyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/earn': typeof EarnRoute
+  '/nft': typeof NftRoute
+  '/pass': typeof PassRoute
+  '/upgrade': typeof UpgradeRoute
+  '/wheel': typeof WheelRoute
+  '/event/$key': typeof EventKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/earn': typeof EarnRoute
+  '/nft': typeof NftRoute
+  '/pass': typeof PassRoute
+  '/upgrade': typeof UpgradeRoute
+  '/wheel': typeof WheelRoute
+  '/event/$key': typeof EventKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/earn' | '/nft' | '/pass' | '/upgrade' | '/wheel' | '/event/$key'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/earn' | '/nft' | '/pass' | '/upgrade' | '/wheel' | '/event/$key'
+  id:
+    | '__root__'
+    | '/'
+    | '/earn'
+    | '/nft'
+    | '/pass'
+    | '/upgrade'
+    | '/wheel'
+    | '/event/$key'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EarnRoute: typeof EarnRoute
+  NftRoute: typeof NftRoute
+  PassRoute: typeof PassRoute
+  UpgradeRoute: typeof UpgradeRoute
+  WheelRoute: typeof WheelRoute
+  EventKeyRoute: typeof EventKeyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/earn': {
+      id: '/earn'
+      path: '/earn'
+      fullPath: '/earn'
+      preLoaderRoute: typeof EarnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nft': {
+      id: '/nft'
+      path: '/nft'
+      fullPath: '/nft'
+      preLoaderRoute: typeof NftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pass': {
+      id: '/pass'
+      path: '/pass'
+      fullPath: '/pass'
+      preLoaderRoute: typeof PassRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upgrade': {
+      id: '/upgrade'
+      path: '/upgrade'
+      fullPath: '/upgrade'
+      preLoaderRoute: typeof UpgradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wheel': {
+      id: '/wheel'
+      path: '/wheel'
+      fullPath: '/wheel'
+      preLoaderRoute: typeof WheelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/event/$key': {
+      id: '/event/$key'
+      path: '/event/$key'
+      fullPath: '/event/$key'
+      preLoaderRoute: typeof EventKeyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EarnRoute: EarnRoute,
+  NftRoute: NftRoute,
+  PassRoute: PassRoute,
+  UpgradeRoute: UpgradeRoute,
+  WheelRoute: WheelRoute,
+  EventKeyRoute: EventKeyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
