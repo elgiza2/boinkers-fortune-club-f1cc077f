@@ -67,7 +67,7 @@ export const holoClaimTask = createServerFn({ method: "POST" })
     return { ok: true as const, reward: { spins: t.reward_spins as number, tickets: t.reward_tickets as number, coins: t.reward_coins as number } };
   });
 
-const productId = z.string().regex(/^(offer:[a-z]+|[a-z_0-9]+)$/).max(40);
+const productId = z.string().regex(/^(offer:[a-z]+|event:[a-z-]+:\d{1,2}|[a-z_0-9]+)$/).max(40);
 
 export const holoBuy = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => init.extend({ product: productId, method: z.enum(["stars", "gram"]) }).parse(d))
