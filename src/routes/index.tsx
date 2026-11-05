@@ -39,6 +39,7 @@ function burstParts(p: WinInfo): Burst[] {
   const rng = rand(p.k + 1);
   const kinds: { img: string; n: number; size: number }[] = [];
   if (p.coins) kinds.push({ img: ART.coin, n: Math.min(18, 9 + Math.floor(Math.log10(p.coins + 1) * 3)), size: 28 });
+  if (p.solo) kinds.push({ img: ART.gem, n: 6, size: 26 });
   if (p.spins) kinds.push({ img: ART.bolt, n: 3, size: 24 });
   if (p.tickets) kinds.push({ img: ART.wheelSpin, n: 3, size: 26 });
   if (p.ton) kinds.push({ img: ART.ton, n: 5, size: 30 });
@@ -149,22 +150,21 @@ function Home() {
     return undefined;
   }); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const held = useRef(false);
   const spinBtn = (
     <div className="relative h-full w-full">
-      <div className="ios-spin-ring" />
       <button
-        onClick={() => { if (auto) setAuto(false); else spin(); }}
-        onPointerDown={() => { holdT.current = setTimeout(() => { setAuto(true); toast("Autospin ON — tap to stop"); }, 700); }}
-        onPointerUp={() => clearTimeout(holdT.current)} onPointerLeave={() => clearTimeout(holdT.current)}
-        aria-label="Spin"
-        className={`ios-spin ${auto ? "ios-spin-auto" : ""}`}
+        onClick={() => { if (held.current) { held.current = false; return; } if (auto) setAuto(false); else spin(); }}
+        onPointerDown={() => { held.current = false; holdT.current = setTimeout(() => { held.current = true; setAuto(true); haptic(); toast("Autospin on — tap to stop"); }, 600); }}
+        onPointerUp={() => clearTimeout(holdT.current)} onPointerLeave={() => clearTimeout(holdT.current)} onPointerCancel={() => clearTimeout(holdT.current)}
+        onContextMenu={(e) => e.preventDefault()}
+        aria-label={auto ? "Stop autospin" : "Spin, hold for autospin"}
+        className={`holo-spin ${auto ? "holo-spin-auto" : ""}`}
       >
-        <span className="flex flex-col items-center">
-          <span className="font-display text-[26px] leading-none">{auto ? "STOP" : "SPIN"}</span>
-          <span className="mt-1 text-[8px] font-semibold uppercase tracking-wider opacity-80">Hold for auto</span>
-        </span>
+        <span className="holo-spin-label">{auto ? "STOP" : "SPIN"}</span>
+        <span className="holo-spin-sub">{auto ? "Auto on" : "Hold for auto"}</span>
       </button>
-      <button onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)} aria-label="Change bet" className="ios-bet">x{bet}</button>
+      <button onClick={() => setBet((b) => BETS[(BETS.indexOf(b) + 1) % BETS.length]!)} aria-label={`Bet x${bet}, tap to change`} className="holo-bet">x{bet}</button>
     </div>
   );
 
