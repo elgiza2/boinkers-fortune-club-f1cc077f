@@ -33,9 +33,9 @@
 
 - [ ] Daily timer for posts/notifications/AI pictures (needs an outside scheduler after publishing)
 - [ ] Make bot admin in @holocom and member/admin in @holoik (join checks + posting)
-- [ ] Fix Stars + GRAM payments not working
-- [ ] New generated bottom-nav icons
-- [ ] Clean consistent design for all event sheets
-- [ ] Ask Stars vs GRAM at purchase time (remove always-on toggle)
-- [ ] Slightly bigger slot reels
-- [ ] No toasts at top of screen
+- [x] Fix Stars + GRAM payments not working
+- [x] New generated bottom-nav icons
+- [x] Clean consistent design for all event sheets
+- [x] Ask Stars vs GRAM at purchase time (remove always-on toggle)
+- [x] Slightly bigger slot reels
+- [x] No toasts at top of screen
