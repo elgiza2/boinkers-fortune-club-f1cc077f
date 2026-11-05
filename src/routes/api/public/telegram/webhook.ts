@@ -12,8 +12,8 @@ type Update = {
 function startMarkup(appUrl: string) {
   return {
     inline_keyboard: [
-      [{ text: "▶️  Play Holo", web_app: { url: appUrl }, style: "primary" }],
-      [{ text: "💬  Community", url: HOLO_CHAT_URL, style: "success" }, { text: "📣  News", url: HOLO_NEWS_URL, style: "danger" }],
+      [{ text: "Play Holo", web_app: { url: appUrl }, style: "primary", icon_custom_emoji_id: "5368765414136364384" }],
+      [{ text: "Community", url: HOLO_CHAT_URL, style: "success", icon_custom_emoji_id: "5269250433477527043" }, { text: "News", url: HOLO_NEWS_URL, style: "danger", icon_custom_emoji_id: "5429523378715254219" }],
     ],
   };
 }
