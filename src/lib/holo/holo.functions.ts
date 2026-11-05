@@ -157,20 +157,14 @@ export const holoAdmin = createServerFn({ method: "POST" })
     const { data: tasks } = await d.from("holo_tasks").select("*").order("sort");
     if (role !== "owner") return { ok: true as const, role, tasks: tasks ?? [], stats: null, payments: [], admins: [] };
     const since = new Date(Date.now() - 86400_000).toISOString();
-    const count = async (f: (q: ReturnType<typeof d.from>) => unknown) => {
-      const q = d.from("holo_players").select("telegram_id", { count: "exact", head: true });
-      const { count: c } = (await (f(q as never) as Promise<{ count: number | null }>)) ?? { count: 0 };
-      return c ?? 0;
-    };
-    const [players, active24, joinedCh, joinedGr, { data: paid }, { data: payments }, { data: admins }] = await Promise.all([
-      count((q) => q), count((q) => (q as unknown as { gte: (a: string, b: string) => unknown }).gte("last_seen_at", since)),
-      count((q) => (q as unknown as { eq: (a: string, b: boolean) => unknown }).eq("joined_channel", true)),
-      count((q) => (q as unknown as { eq: (a: string, b: boolean) => unknown }).eq("joined_group", true)),
+    const head = () => d.from("holo_players").select("telegram_id", { count: "exact", head: true });
+    const [{ count: players }, { count: active24 }, { count: joinedCh }, { count: joinedGr }, { data: paid }, { data: payments }, { data: admins }] = await Promise.all([
+      head(), head().gte("last_seen_at", since), head().eq("joined_channel", true), head().eq("joined_group", true),
       d.from("holo_payments").select("method, amount").eq("status", "paid"),
       d.from("holo_payments").select("id, telegram_id, product, method, amount, status, created_at").order("created_at", { ascending: false }).limit(30),
       d.from("holo_admins").select("username, role").order("created_at"),
     ]);
     const stars = (paid ?? []).filter((p) => p.method === "stars").reduce((a, p) => a + Number(p.amount), 0);
     const gram = (paid ?? []).filter((p) => p.method === "gram").reduce((a, p) => a + Number(p.amount), 0);
-    return { ok: true as const, role, tasks: tasks ?? [], stats: { players, active24, joinedCh, joinedGr, stars, gram, orders: (paid ?? []).length }, payments: payments ?? [], admins: admins ?? [] };
+    return { ok: true as const, role, tasks: tasks ?? [], stats: { players: players ?? 0, active24: active24 ?? 0, joinedCh: joinedCh ?? 0, joinedGr: joinedGr ?? 0, stars, gram, orders: (paid ?? []).length }, payments: payments ?? [], admins: admins ?? [] };
   });
