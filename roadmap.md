@@ -17,7 +17,8 @@
 - [ ] Many character variants from user's uploaded Holo character, spread across the app
 - [ ] Fix app colours (most look wrong)
 - [ ] Redesign the spin button
-- [ ] Speed: cache images locally, remove unused libraries
+- [ ] Speed: cache images locally on device (service worker), remove unused libraries
+- [ ] NFT page full clean redesign
 - [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
 - [ ] Fire Pass & event rewards: mix of big spin amounts + wheel spins (not wheel only)
 - [ ] Daily AI-generated images: news post, splash, notifications, each event
