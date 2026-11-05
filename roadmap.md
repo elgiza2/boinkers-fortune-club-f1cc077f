@@ -29,3 +29,4 @@
 - [ ] Hold-for-autospin must work reliably
 - [ ] Slots: more frequent/bigger wins + include our Holo coin (SOLO) in slot payouts
 - [ ] New bottom nav icons + header top safe area (Telegram fullscreen)
+- [x] One token type per spin; token hits shown as the main win
