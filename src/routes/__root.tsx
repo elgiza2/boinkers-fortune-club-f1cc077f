@@ -131,7 +131,7 @@ function RootComponent() {
       <GameProvider>
         <Splash />
         <Outlet />
-        <Toaster position="top-center" richColors offset={64} />
+        <Toaster position="bottom-center" richColors offset={110} />
 
       </GameProvider>
     </QueryClientProvider>
