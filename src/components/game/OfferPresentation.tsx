@@ -68,7 +68,7 @@ function PaidPresentation({ offer, now }: { offer: Offer; now: number }) {
   return <>
     {offer.key === "starter" ? <img className="slots-offer-bundle-art" src={fusionScene} alt="Two characters joining forces" /> : <img className="slots-offer-bundle-art slots-offer-bundle-icon" src={ART.chest} alt="Reward chest" />}
     <div className="slots-offer-bundle-rewards"><div><img src={ART.bolt} alt="Spins" /><strong>{fmt(offer.spins)}</strong><span>Spins</span></div><div><img src={ART.wheelSpin} alt="Wheel spins" /><strong>{fmt(offer.tickets)}</strong><span>Wheel spins</span></div></div>
-    <Button className="slots-offer-action slots-offer-buy" disabled={!!busy || !product} onClick={() => void buy(`offer:${offer.key}`, "stars")}><PriceTag ton={offer.ton} stars={product?.stars} currency="stars" /></Button>
+    <Button className="slots-offer-action slots-offer-buy" disabled={!!busy || !product} onClick={() => void buy(`offer:${offer.key}`, "stars")}><PriceTag ton={offer.ton} stars={product?.stars ?? Math.round(offer.ton * 100)} currency="stars" /></Button>
     <Countdown ms={offer.endsIn} now={now} offer />
   </>;
 }
