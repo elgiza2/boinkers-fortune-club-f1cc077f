@@ -21,9 +21,17 @@ export const HOLO_CHAT_URL = "https://t.me/holoik";
 export const HOLO_NEWS_URL = "https://t.me/holocom";
 
 import { currentOffers } from "@/lib/offers";
+import { LIVE_EVENTS, eventTiers } from "@/lib/events";
 /** Resolves a product id (static or `offer:<key>` from the rotating 4h offers) to its price and reward. */
 export function resolveProduct(id: string, now = Date.now()): Product | null {
   if (id in PRODUCTS) return PRODUCTS[id as ProductId];
+  const ev = /^event:([a-z-]+):(\d+)$/.exec(id);
+  if (ev) {
+    const def = LIVE_EVENTS.find((e) => e.key === ev[1]);
+    const t = def ? eventTiers(def)[Number(ev[2])] : undefined;
+    if (!def || !t?.price) return null;
+    return { id: id as ProductId, title: `${def.name} reward ${Number(ev[2]) + 1}`, gram: t.price.ton, stars: t.price.stars, reward: { spins: t.reward.spins, tickets: t.reward.tickets } };
+  }
   const m = /^offer:([a-z]+)$/.exec(id);
   const o = m ? currentOffers(now).find((x) => x.key === m[1]) : undefined;
   if (!o) return null;

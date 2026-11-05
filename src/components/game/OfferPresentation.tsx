@@ -34,6 +34,7 @@ function Reward({ tier, large = false }: { tier: Tier; large?: boolean }) {
 }
 function EventPresentation({ def, now, pay }: { def: EventDef; now: number; pay: PayCurrency }) {
   const { s, claimLive } = useGame();
+  const { buy } = usePurchase();
   const [notice, setNotice] = useState("");
   const { run, endsIn } = eventRun(def, now);
   const p = progressFor(s.live[def.key], run), tiers = eventTiers(def);
@@ -41,8 +42,8 @@ function EventPresentation({ def, now, pay }: { def: EventDef; now: number; pay:
   const next = tiers[nextIndex];
   const action = (tier: Tier, i: number) => {
     const done = p.claimed.includes(i), reached = p.tokens >= tier.need;
-    return <Button className="slots-offer-action slots-offer-step-action" disabled={done || (!tier.price && !reached)} aria-label={done ? `Reward ${i + 1} claimed` : tier.price ? `Buy reward ${i + 1}` : `Claim reward ${i + 1}`} onClick={() => {
-      if (tier.price) setNotice(`Payments are not connected — ${tier.price.ton} TON / ${tier.price.stars} Stars. Nothing charged.`);
+    return <Button className="slots-offer-action slots-offer-step-action" disabled={done || !reached} aria-label={done ? `Reward ${i + 1} claimed` : tier.price ? `Buy reward ${i + 1}` : `Claim reward ${i + 1}`} onClick={() => {
+      if (tier.price) void buy(`event:${def.key}:${i}`, pay === "ton" ? "gram" : "stars");
       else if (claimLive(def.key, i)) setNotice("Reward collected!");
     }}>{done ? <Check /> : tier.price ? <PriceTag ton={tier.price.ton} currency={pay} /> : <><img src={TOKEN_ART[def.key]} alt="Tokens" />{fmt(tier.need)}</>}{!done && !reached && <Lock className="slots-offer-step-lock" />}</Button>;
   };
