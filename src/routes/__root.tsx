@@ -115,6 +115,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useEffect(() => {
+    if (import.meta.env.PROD && "serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
     const tg = (window as any).Telegram?.WebApp;
     tg?.ready?.();
     tg?.expand?.();
