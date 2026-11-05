@@ -5,7 +5,6 @@ import { useGame, clock } from "@/lib/game";
 import { ART, TOKEN_ART } from "@/lib/art";
 import { LIVE_EVENTS, eventRun, eventTiers, progressFor } from "@/lib/events";
 import { RewardChip } from "@/components/game/LiveEvents";
-import sky from "@/assets/night-sky.jpg";
 
 export const Route = createFileRoute("/event/$key")({
   loader: ({ params }) => {
@@ -37,7 +36,7 @@ function EventPage() {
   const tiers = eventTiers(def);
   return (
     <div className="safe-top relative mx-auto flex h-[100dvh] max-w-md flex-col overflow-hidden bg-night">
-      <img src={sky} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60" />
+      <div className="ios-bg" aria-hidden><i /><i /><i /></div>
       <div className="relative flex items-center gap-2 px-4 pt-2">
         <Link to="/" aria-label="Back to slots" className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink bg-ink/60 text-cream active:scale-90"><ArrowLeft className="h-5 w-5" strokeWidth={3} /></Link>
         <span className="ml-auto flex items-center gap-1.5 rounded-full bg-ink/70 py-1 pl-1 pr-3">
