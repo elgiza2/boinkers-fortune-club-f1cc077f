@@ -19,7 +19,6 @@ export function SlotsOfferDialog({ selection, now, onClose }: { selection: Selec
       <Dialog.Content className={`slots-offer-dialog slots-offer-${layout}`} aria-describedby={undefined}>
         <Dialog.Close asChild><Button variant="ghost" size="icon" className="slots-offer-close" aria-label="Close offer"><X /></Button></Dialog.Close>
         {selection && <Dialog.Title className="slots-offer-title">{layout === "egg" ? <><span>VLAD’S</span><span>EGG TRAIL</span></> : layout === "loot" ? <><span>GAME</span><span>LOOT</span></> : selection.value.name.toUpperCase()}</Dialog.Title>}
-        {selection &&}
         {selection?.kind === "event" && <EventPresentation key={selection.value.key} def={selection.value} now={now} pay={pay} />}
         {selection?.kind === "offer" && <PaidPresentation key={selection.value.key} offer={selection.value} now={now} pay={pay} />}
       </Dialog.Content>
