@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { holoBuy, holoCheckGram } from "./holo.functions";
 import { tgInitData, useGame } from "@/lib/game";
+import { choosePayMethod } from "@/components/game/PayChooser";
 
 type WA = { openInvoice?: (url: string, cb: (status: string) => void) => void; openLink?: (url: string) => void };
 const wa = () => (window as unknown as { Telegram?: { WebApp?: WA } }).Telegram?.WebApp;
@@ -12,9 +13,11 @@ export function usePurchase() {
   const buyFn = useServerFn(holoBuy), checkFn = useServerFn(holoCheckGram);
   const { syncNow } = useGame();
   const [busy, setBusy] = useState<string | null>(null);
-  const buy = useCallback(async (product: string, method: "stars" | "gram") => {
+  const buy = useCallback(async (product: string, _preset?: "stars" | "gram") => {
     const initData = tgInitData();
     if (!initData) { toast.error("Open Holo inside Telegram to buy"); return; }
+    const method = await choosePayMethod(product);
+    if (!method) return;
     setBusy(product);
     try {
       const r = await buyFn({ data: { initData, product, method } });

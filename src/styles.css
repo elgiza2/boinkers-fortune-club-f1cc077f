@@ -173,16 +173,16 @@ body { font-family: var(--font-sans); }
 .bar { position: relative; height: 16px; overflow: hidden; border-radius: 999px; background: var(--merge-slot); border: 1px solid var(--merge-line); }
 .bar-fill { height: 100%; border-radius: 999px; transition: width .5s; background: linear-gradient(90deg, var(--sky), var(--grape)); }
 
-.slot-reel { height: 176px; }
-.slot-sym-main { height: 70px; width: 70px; }
-.slot-sym-peek { height: 56px; width: 56px; margin-top: -28px; }
-.slot-sym-peek-b { margin-top: 0; margin-bottom: -28px; }
-.slot-sym-spin { height: 48px; width: 48px; margin: 4px 0; }
+.slot-reel { height: 200px; }
+.slot-sym-main { height: 84px; width: 84px; }
+.slot-sym-peek { height: 64px; width: 64px; margin-top: -32px; }
+.slot-sym-peek-b { margin-top: 0; margin-bottom: -32px; }
+.slot-sym-spin { height: 56px; width: 56px; margin: 4px 0; }
 
 @keyframes nav-pop { 0% { transform: translateY(6px) scale(.7); } 55% { transform: translateY(-4px) scale(1.18); } 80% { transform: translateY(0) scale(.96); } 100% { transform: translateY(-1px) scale(1.05); } }
 .nav-icon { transition: background .25s; }
 .nav-icon-img { filter: saturate(.7) brightness(.9); transition: filter .25s, transform .25s cubic-bezier(.34,1.56,.64,1); }
-.group[data-status="active"] .nav-icon { background: oklch(1 0 0 / .12); }
+.group[data-status="active"] .nav-icon { background: color-mix(in oklab, var(--primary) 12%, transparent); }
 .group[data-status="active"] .nav-icon-img { animation: nav-pop .55s cubic-bezier(.34,1.56,.64,1) both; filter: none; }
 .group:active .nav-icon-img { transform: scale(.88); }
 .sheet-card { background: oklch(1 0 0 / 0.97); }
@@ -647,33 +647,78 @@ body { font-weight: 500; -webkit-font-smoothing: antialiased; letter-spacing: -0
 
 /* ===== Clean event sheet (no scroll, safe-area aware) ===== */
 .slots-offer-dialog { top:calc(var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px) + 10px); bottom:calc(var(--tg-safe-area-inset-bottom,0px) + 10px); transform:translateX(-50%); height:auto; max-height:none; overflow:hidden; }
-.slots-offer-egg { background:color-mix(in oklab, var(--background) 88%, transparent); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border:1px solid color-mix(in oklab, var(--foreground) 8%, transparent); border-radius:28px; box-shadow:0 20px 60px -20px color-mix(in oklab, var(--foreground) 35%, transparent); padding:14px 12px 12px; gap:8px; color:var(--foreground); font-family:var(--font-sans); }
-.slots-offer-egg .slots-offer-close { top:12px; right:12px; width:34px; height:34px; border:none; background:color-mix(in oklab, var(--foreground) 8%, transparent); color:var(--foreground); box-shadow:none; }
-.slots-offer-egg .slots-offer-close svg { width:18px; height:18px; stroke-width:2.5; }
-.slots-offer-egg .slots-offer-token-balance { position:static; align-self:flex-start; background:color-mix(in oklab, var(--primary) 10%, transparent); border:none; padding:3px 12px 3px 4px; font-size:15px; font-weight:800; color:var(--foreground); }
-.slots-offer-egg .slots-offer-token-balance img { width:26px; height:26px; }
-.slots-offer-egg .slots-offer-title { font-family:var(--font-sans); font-weight:900; text-shadow:none; line-height:1.05; margin-top:-2px; }
-.slots-offer-egg .slots-offer-title span:first-child { font-size:13px; letter-spacing:.18em; color:var(--muted-foreground); }
-.slots-offer-egg .slots-offer-title span:last-child { font-size:28px; color:var(--foreground); letter-spacing:-.01em; }
-.slots-offer-egg .slots-offer-pay { align-self:center; transform:scale(.88); margin:-4px 0; }
-.slots-offer-egg .slots-offer-egg-grand { margin:0; height:auto; flex-direction:row; justify-content:space-between; gap:10px; padding:8px 10px 8px 14px; border:none; border-radius:18px; background:linear-gradient(135deg, color-mix(in oklab, var(--primary) 18%, var(--background)), color-mix(in oklab, var(--accent) 30%, var(--background))); box-shadow:none; }
-.slots-offer-egg .slots-offer-egg-grand .slots-offer-reward-large { flex-direction:row; gap:8px; font-size:22px; }
-.slots-offer-egg .slots-offer-egg-grand .slots-offer-reward-large img { width:40px; height:40px; }
-.slots-offer-egg .slots-offer-egg-grand .slots-offer-step-action { position:static; width:auto; min-width:110px; height:36px; }
-.slots-offer-egg .slots-offer-grand-arrow { display:none; }
-.slots-offer-egg .slots-offer-trail-scroll { overflow:hidden; padding:2px; }
-.slots-offer-egg .slots-offer-trail { min-height:0; height:100%; gap:8px; }
-.slots-offer-egg .slots-offer-step { border:1px solid color-mix(in oklab, var(--foreground) 7%, transparent); border-radius:16px; background:var(--card); box-shadow:0 2px 10px -6px color-mix(in oklab, var(--foreground) 30%, transparent); padding:4px; gap:2px; overflow:visible; color:var(--foreground); }
-.slots-offer-egg .slots-offer-step-active { border-color:var(--primary); box-shadow:0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); }
-.slots-offer-egg .slots-offer-step-done { opacity:.55; }
-.slots-offer-egg .slots-offer-step .slots-offer-reward-large { font-size:16px; font-weight:800; gap:0; min-height:0; }
-.slots-offer-egg .slots-offer-step .slots-offer-reward-large img { width:clamp(24px, 6dvh, 44px); height:clamp(24px, 6dvh, 44px); }
-.slots-offer-egg .slots-offer-action { background:var(--primary); color:var(--primary-foreground); border:none; box-shadow:none; border-radius:999px; font-family:var(--font-sans); font-weight:800; }
-.slots-offer-egg .slots-offer-step-action { width:100%; height:24px; min-height:24px; font-size:12px; }
-.slots-offer-egg .slots-offer-step-action > img { width:14px; height:14px; }
-.slots-offer-egg .slots-offer-step-action .slots-offer-step-lock { width:12px; height:12px; position:static; transform:none; fill:none; color:currentColor; }
-.slots-offer-egg .slots-offer-action:disabled { filter:none; opacity:1; background:color-mix(in oklab, var(--foreground) 8%, transparent); color:var(--muted-foreground); }
-.slots-offer-egg .slots-offer-trail-arrow { display:none; }
-.slots-offer-egg .slots-offer-countdown { background:color-mix(in oklab, var(--foreground) 6%, transparent); color:var(--foreground); font-family:var(--font-sans); font-weight:700; font-size:13px; padding:5px 12px; }
-.slots-offer-egg .slots-offer-countdown svg { width:16px; height:16px; color:var(--primary); }
-.slots-offer-egg .slots-offer-notice { background:color-mix(in oklab, var(--primary) 10%, transparent); color:var(--foreground); }
+.slots-offer-dialog { background:color-mix(in oklab, var(--background) 88%, transparent); backdrop-filter:blur(24px) saturate(1.4); -webkit-backdrop-filter:blur(24px) saturate(1.4); border:1px solid color-mix(in oklab, var(--foreground) 8%, transparent); border-radius:28px; box-shadow:0 20px 60px -20px color-mix(in oklab, var(--foreground) 35%, transparent); padding:14px 12px 12px; gap:8px; color:var(--foreground); font-family:var(--font-sans); }
+.slots-offer-dialog .slots-offer-close { top:12px; right:12px; width:34px; height:34px; border:none; background:color-mix(in oklab, var(--foreground) 8%, transparent); color:var(--foreground); box-shadow:none; }
+.slots-offer-dialog .slots-offer-close svg { width:18px; height:18px; stroke-width:2.5; }
+.slots-offer-dialog .slots-offer-token-balance { position:static; align-self:flex-start; background:color-mix(in oklab, var(--primary) 10%, transparent); border:none; padding:3px 12px 3px 4px; font-size:15px; font-weight:800; color:var(--foreground); }
+.slots-offer-dialog .slots-offer-token-balance img { width:26px; height:26px; }
+.slots-offer-dialog .slots-offer-title { font-family:var(--font-sans); font-weight:900; text-shadow:none; line-height:1.05; margin-top:-2px; }
+.slots-offer-dialog .slots-offer-title span:first-child { font-size:13px; letter-spacing:.18em; color:var(--muted-foreground); }
+.slots-offer-dialog .slots-offer-title span:last-child { font-size:28px; color:var(--foreground); letter-spacing:-.01em; }
+.slots-offer-dialog .slots-offer-pay { align-self:center; transform:scale(.88); margin:-4px 0; }
+.slots-offer-dialog .slots-offer-egg-grand { margin:0; height:auto; flex-direction:row; justify-content:space-between; gap:10px; padding:8px 10px 8px 14px; border:none; border-radius:18px; background:linear-gradient(135deg, color-mix(in oklab, var(--primary) 18%, var(--background)), color-mix(in oklab, var(--accent) 30%, var(--background))); box-shadow:none; }
+.slots-offer-dialog .slots-offer-egg-grand .slots-offer-reward-large { flex-direction:row; gap:8px; font-size:22px; }
+.slots-offer-dialog .slots-offer-egg-grand .slots-offer-reward-large img { width:40px; height:40px; }
+.slots-offer-dialog .slots-offer-egg-grand .slots-offer-step-action { position:static; width:auto; min-width:110px; height:36px; }
+.slots-offer-dialog .slots-offer-grand-arrow { display:none; }
+.slots-offer-dialog .slots-offer-trail-scroll { overflow:hidden; padding:2px; }
+.slots-offer-dialog .slots-offer-trail { min-height:0; height:100%; gap:8px; }
+.slots-offer-dialog .slots-offer-step { border:1px solid color-mix(in oklab, var(--foreground) 7%, transparent); border-radius:16px; background:var(--card); box-shadow:0 2px 10px -6px color-mix(in oklab, var(--foreground) 30%, transparent); padding:4px; gap:2px; overflow:visible; color:var(--foreground); }
+.slots-offer-dialog .slots-offer-step-active { border-color:var(--primary); box-shadow:0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); }
+.slots-offer-dialog .slots-offer-step-done { opacity:.55; }
+.slots-offer-dialog .slots-offer-step .slots-offer-reward-large { font-size:16px; font-weight:800; gap:0; min-height:0; }
+.slots-offer-dialog .slots-offer-step .slots-offer-reward-large img { width:clamp(24px, 6dvh, 44px); height:clamp(24px, 6dvh, 44px); }
+.slots-offer-dialog .slots-offer-action { background:var(--primary); color:var(--primary-foreground); border:none; box-shadow:none; border-radius:999px; font-family:var(--font-sans); font-weight:800; }
+.slots-offer-dialog .slots-offer-step-action { width:100%; height:24px; min-height:24px; font-size:12px; }
+.slots-offer-dialog .slots-offer-step-action > img { width:14px; height:14px; }
+.slots-offer-dialog .slots-offer-step-action .slots-offer-step-lock { width:12px; height:12px; position:static; transform:none; fill:none; color:currentColor; }
+.slots-offer-dialog .slots-offer-action:disabled { filter:none; opacity:1; background:color-mix(in oklab, var(--foreground) 8%, transparent); color:var(--muted-foreground); }
+.slots-offer-dialog .slots-offer-trail-arrow { display:none; }
+.slots-offer-dialog .slots-offer-countdown { background:color-mix(in oklab, var(--foreground) 6%, transparent); color:var(--foreground); font-family:var(--font-sans); font-weight:700; font-size:13px; padding:5px 12px; }
+.slots-offer-dialog .slots-offer-countdown svg { width:16px; height:16px; color:var(--primary); }
+.slots-offer-dialog .slots-offer-notice { background:color-mix(in oklab, var(--primary) 10%, transparent); color:var(--foreground); }
+
+.slots-offer-dialog .slots-offer-title { font-size:28px; color:var(--foreground); transform:none; margin:0; background:none; border:none; width:auto; padding:0; }
+.slots-offer-dialog .slots-offer-title span:first-child { font-size:13px; letter-spacing:.18em; color:var(--muted-foreground); }
+.slots-offer-dialog .slots-offer-title span:last-child { font-size:28px; color:var(--foreground); }
+.slots-offer-dialog.slots-offer-loot { padding-top:14px; }
+.slots-offer-dialog .slots-offer-loot-art { width:100%; max-height:30dvh; object-fit:contain; position:static; }
+.slots-offer-dialog .slots-offer-loot-panel, .slots-offer-dialog .slots-offer-sale-panel { background:var(--card); border:1px solid color-mix(in oklab, var(--foreground) 8%, transparent); border-radius:20px; box-shadow:none; color:var(--foreground); padding:12px; }
+.slots-offer-dialog .slots-offer-sale-rewards, .slots-offer-dialog .slots-offer-sale-chests { background:color-mix(in oklab, var(--primary) 6%, transparent); border-radius:14px; }
+.slots-offer-dialog .slots-offer-sale-rewards .slots-offer-reward-large { color:var(--foreground); font-size:15px; font-weight:800; }
+.slots-offer-dialog .slots-offer-sale-subtitle { font-family:var(--font-sans); font-weight:700; font-size:13px; color:var(--muted-foreground); }
+.slots-offer-dialog .slots-offer-sale-arrow { background:none; color:var(--muted-foreground); filter:none; height:22px; }
+.slots-offer-dialog .slots-offer-sale-buy, .slots-offer-dialog .slots-offer-buy { height:44px; width:100%; font-size:16px; }
+.slots-offer-dialog .slots-offer-fusion-poster { border:none; border-radius:22px; }
+.slots-offer-dialog .slots-offer-loot-stats, .slots-offer-dialog .slots-offer-loot-standings, .slots-offer-dialog .slots-offer-loot-claim { color:var(--foreground); font-family:var(--font-sans); }
+/* Pay method chooser (bottom sheet) */
+.pay-chooser-backdrop { position:fixed; inset:0; z-index:90; background:color-mix(in oklab, var(--foreground) 30%, transparent); backdrop-filter:blur(4px); }
+.pay-chooser { position:fixed; z-index:91; left:50%; bottom:0; transform:translateX(-50%); width:min(100vw,460px); padding:10px 18px calc(18px + var(--tg-safe-area-inset-bottom,0px)); border-radius:28px 28px 0 0; background:var(--background); color:var(--foreground); display:flex; flex-direction:column; gap:10px; box-shadow:0 -10px 40px -10px color-mix(in oklab, var(--foreground) 30%, transparent); outline:none; animation:pay-up .25s cubic-bezier(.2,.9,.3,1); }
+@keyframes pay-up { from { transform:translate(-50%,100%); } }
+.pay-chooser-grab { width:38px; height:5px; border-radius:9px; background:color-mix(in oklab, var(--foreground) 15%, transparent); margin:0 auto 4px; }
+.pay-chooser-title { font-size:20px; font-weight:900; text-align:center; }
+.pay-chooser-sub { text-align:center; font-size:13px; color:var(--muted-foreground); margin-top:-6px; }
+.pay-chooser-options { display:grid; gap:8px; }
+.pay-chooser-options button { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:18px; background:var(--card); border:1px solid color-mix(in oklab, var(--foreground) 8%, transparent); font-weight:700; font-size:15px; text-align:left; transition:transform .15s; }
+.pay-chooser-options button:active { transform:scale(.98); }
+.pay-chooser-options img { width:30px; height:30px; object-fit:contain; }
+.pay-chooser-options span { flex:1; }
+.pay-chooser-options b { color:var(--primary); font-weight:900; }
+.pay-chooser-cancel { padding:12px; font-weight:700; color:var(--muted-foreground); }
+/* Clean Game Loot + Fusion overrides */
+.slots-offer-dialog.slots-offer-loot .slots-offer-title { display:block; transform:none; margin:0; }
+.slots-offer-dialog.slots-offer-loot .slots-offer-title span { display:block; padding:0; background:none; border:none; }
+.slots-offer-dialog.slots-offer-loot .slots-offer-title span:first-child { font-size:13px; color:var(--muted-foreground); }
+.slots-offer-dialog.slots-offer-loot .slots-offer-title span:last-child { font-size:28px; color:var(--foreground); background:none; }
+.slots-offer-dialog .slots-offer-loot-stats > div { background:color-mix(in oklab, var(--primary) 8%, transparent); border:none; border-radius:16px; box-shadow:none; color:var(--foreground); }
+.slots-offer-dialog .slots-offer-loot-stats strong { color:var(--foreground); text-shadow:none; }
+.slots-offer-dialog .slots-offer-loot-stats small { color:var(--muted-foreground); }
+.slots-offer-dialog .slots-offer-loot-claim progress { accent-color:var(--primary); }
+.slots-offer-dialog .slots-offer-loot-claim strong { text-shadow:none; color:var(--foreground); }
+.slots-offer-dialog .slots-offer-loot-standings { background:color-mix(in oklab, var(--foreground) 4%, transparent); border:none; border-radius:16px; box-shadow:none; }
+.slots-offer-dialog .slots-offer-player-row { background:var(--card); border:1px solid color-mix(in oklab, var(--primary) 30%, transparent); border-radius:14px; box-shadow:none; color:var(--foreground); }
+.slots-offer-dialog .slots-offer-player-row b, .slots-offer-dialog .slots-offer-player-row strong { color:var(--foreground); text-shadow:none; }
+.slots-offer-dialog .slots-offer-avatar { background:var(--primary); color:var(--primary-foreground); border:none; }
+.slots-offer-dialog .slots-offer-loot-empty { color:var(--muted-foreground); text-align:center; padding:16px; font-size:13px; }
+.slots-offer-dialog .slots-offer-fusion-copy { color:var(--cream); font-family:var(--font-sans); font-weight:900; text-shadow:0 2px 10px oklch(0 0 0 / .6); }
+.slots-offer-dialog .slots-offer-fusion-prize strong { color:var(--cream); text-shadow:0 2px 8px oklch(0 0 0 / .6); }

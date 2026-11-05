@@ -7,7 +7,7 @@ import headerArt from "@/assets/holo-royal-header.jpg";
 import { ART } from "@/lib/art";
 import { usePurchase } from "@/lib/holo/use-purchase";
 import { useGame, passGift, passNeed, fmt } from "@/lib/game";
-import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayToggle";
+import { PriceTag, type PayCurrency } from "@/components/game/PayToggle";
 
 export const Route = createFileRoute("/pass")({
   head: () => ({
@@ -75,7 +75,6 @@ function PassPage() {
       </main>
       <footer className="fire-pass-footer">
         <div className="fire-pass-subscribe">
-          <PayToggle value={pay} onChange={setPay} />
           <div className="fire-pass-sub-cards">
             <button type="button" className="fire-pass-sub-card" disabled={premiumActive} onClick={() => void buy("premium_pass", pay === "ton" ? "gram" : "stars")}>
               <span>PREMIUM ×2</span>
