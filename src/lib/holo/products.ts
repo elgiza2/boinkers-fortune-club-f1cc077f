@@ -30,7 +30,7 @@ export function resolveProduct(id: string, now = Date.now()): Product | null {
     const def = LIVE_EVENTS.find((e) => e.key === ev[1]);
     const t = def ? eventTiers(def)[Number(ev[2])] : undefined;
     if (!def || !t?.price) return null;
-    return { id: id as ProductId, title: `${def.name} reward ${Number(ev[2]) + 1}`, gram: t.price.ton, stars: t.price.stars, reward: { spins: t.reward.spins, tickets: t.reward.tickets } };
+    return { id: id as ProductId, title: `${def.name} reward ${Number(ev[2]) + 1}`, gram: t.price.ton, stars: t.price.stars, reward: { ...(t.reward.spins ? { spins: t.reward.spins } : {}), ...(t.reward.tickets ? { tickets: t.reward.tickets } : {}) } };
   }
   const m = /^offer:([a-z]+)$/.exec(id);
   const o = m ? currentOffers(now).find((x) => x.key === m[1]) : undefined;
