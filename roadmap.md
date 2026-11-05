@@ -15,4 +15,8 @@
 - [ ] Out-of-spins purchase offer
 - [ ] Timed events with rotating tokens; AI-generated new event art/tokens
 - [ ] Many character variants from user's uploaded Holo character, spread across the app
+- [ ] Fix app colours (most look wrong)
+- [ ] Redesign the spin button
+- [ ] Speed: cache images locally, remove unused libraries
+- [ ] Monetization plan (ethical retention/game-economy design, no dark patterns)
 - [ ] New character art, splash page, Royal Pass art, notification & daily event images
