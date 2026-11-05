@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Crown, Gift, Ticket } from "lucide-react";
-import hero from "@/assets/hero-character.png";
+import hero from "@/assets/holo-mascot-wave.png";
 import { Screen } from "@/components/game/Shell";
 import { useGame, fmt, beep, haptic, passNeed, currentEvent, evNeed, evReward, clock, prizeTier, applyPrizeMult } from "@/lib/game";
 import { SpinsOffer } from "@/components/game/SpinsOffer";

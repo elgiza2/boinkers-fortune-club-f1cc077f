@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { Volume2, VolumeX, X, Menu, Wallet } from "lucide-react";
 import { toast } from "sonner";
-import hero from "@/assets/hero-character.png";
+import hero from "@/assets/holo-mascot-wave.png";
 import { fmt, useGame, MAX_SPINS } from "@/lib/game";
 import { ART } from "@/lib/art";
 import { getTonWallet } from "@/lib/ton-wallet";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Check, Clock, LockKeyhole, Moon, Ticket, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import headerArt from "@/assets/fire-pass-header.jpg";
+import headerArt from "@/assets/holo-royal-header.jpg";
 import { ART } from "@/lib/art";
 import { usePurchase } from "@/lib/holo/use-purchase";
 import { useGame, passGift, passNeed, fmt } from "@/lib/game";
@@ -39,7 +39,7 @@ function PassPage() {
   return (
     <div className="fire-pass-page">
       <header className="fire-pass-header">
-        <img src={headerArt} alt="Yellow masked character under the moon" className="fire-pass-header-art" />
+        <img src={headerArt} alt="Holo mascot with a crown on gold coins" className="fire-pass-header-art" />
         <Button asChild variant="ghost" size="icon" className="fire-pass-close" aria-label="Close Fire Pass"><Link to="/"><X /></Link></Button>
         <div className="fire-pass-title"><h1>Fire Pass</h1><span className="fire-pass-level"><Clock /> {left}</span></div>
       </header>

@@ -6,7 +6,7 @@ import prizeBolt from "@/assets/wheel-prize-bolt.png";
 import { ART } from "@/lib/art";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Star } from "lucide-react";
-import mascot from "@/assets/merge-mascot-3.png";
+import mascot from "@/assets/holo-mascot-coin.png";
 import { WHEEL_PRIZES, nextWheelBet, wheelLandingRotation } from "@/lib/wheel";
 
 export const Route = createFileRoute("/wheel")({
