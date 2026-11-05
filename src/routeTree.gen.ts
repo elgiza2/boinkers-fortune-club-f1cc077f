@@ -17,6 +17,7 @@ import { Route as PassRouteImport } from './routes/pass'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
 import { Route as WheelRouteImport } from './routes/wheel'
 import { Route as EventKeyRouteImport } from './routes/event.$key'
+import { Route as ApiPublicArtKindRouteImport } from './routes/api/public/art/$kind'
 import { Route as ApiPublicCronHoloRouteImport } from './routes/api/public/cron/holo'
 import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/public/telegram/webhook'
 
@@ -60,6 +61,11 @@ const EventKeyRoute = EventKeyRouteImport.update({
   path: '/event/$key',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicArtKindRoute = ApiPublicArtKindRouteImport.update({
+  id: '/api/public/art/$kind',
+  path: '/api/public/art/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicCronHoloRoute = ApiPublicCronHoloRouteImport.update({
   id: '/api/public/cron/holo',
   path: '/api/public/cron/holo',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/upgrade': typeof UpgradeRoute
   '/wheel': typeof WheelRoute
   '/event/$key': typeof EventKeyRoute
+  '/api/public/art/$kind': typeof ApiPublicArtKindRoute
   '/api/public/cron/holo': typeof ApiPublicCronHoloRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/upgrade': typeof UpgradeRoute
   '/wheel': typeof WheelRoute
   '/event/$key': typeof EventKeyRoute
+  '/api/public/art/$kind': typeof ApiPublicArtKindRoute
   '/api/public/cron/holo': typeof ApiPublicCronHoloRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/upgrade': typeof UpgradeRoute
   '/wheel': typeof WheelRoute
   '/event/$key': typeof EventKeyRoute
+  '/api/public/art/$kind': typeof ApiPublicArtKindRoute
   '/api/public/cron/holo': typeof ApiPublicCronHoloRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/wheel'
     | '/event/$key'
+    | '/api/public/art/$kind'
     | '/api/public/cron/holo'
     | '/api/public/telegram/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/wheel'
     | '/event/$key'
+    | '/api/public/art/$kind'
     | '/api/public/cron/holo'
     | '/api/public/telegram/webhook'
   id:
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/wheel'
     | '/event/$key'
+    | '/api/public/art/$kind'
     | '/api/public/cron/holo'
     | '/api/public/telegram/webhook'
   fileRoutesById: FileRoutesById
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   UpgradeRoute: typeof UpgradeRoute
   WheelRoute: typeof WheelRoute
   EventKeyRoute: typeof EventKeyRoute
+  ApiPublicArtKindRoute: typeof ApiPublicArtKindRoute
   ApiPublicCronHoloRoute: typeof ApiPublicCronHoloRoute
   ApiPublicTelegramWebhookRoute: typeof ApiPublicTelegramWebhookRoute
 }
@@ -219,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventKeyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/art/$kind': {
+      id: '/api/public/art/$kind'
+      path: '/api/public/art/$kind'
+      fullPath: '/api/public/art/$kind'
+      preLoaderRoute: typeof ApiPublicArtKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/cron/holo': {
       id: '/api/public/cron/holo'
       path: '/api/public/cron/holo'
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpgradeRoute: UpgradeRoute,
   WheelRoute: WheelRoute,
   EventKeyRoute: EventKeyRoute,
+  ApiPublicArtKindRoute: ApiPublicArtKindRoute,
   ApiPublicCronHoloRoute: ApiPublicCronHoloRoute,
   ApiPublicTelegramWebhookRoute: ApiPublicTelegramWebhookRoute,
 }
