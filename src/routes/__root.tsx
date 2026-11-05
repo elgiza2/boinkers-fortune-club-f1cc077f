@@ -80,15 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
       { title: "Holo" },
-      { name: "description", content: "Spin, upgrade your hero and mine Solo in this cartoon Telegram game." },
+      { name: "description", content: "Holo — spin, merge fluffy mascots and win daily gifts in this Telegram game." },
+      { property: "og:title", content: "Holo" },
+      { property: "og:description", content: "Spin, merge fluffy mascots and win daily gifts on Telegram." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" },
     ],
     scripts: [{ src: "https://telegram.org/js/telegram-web-app.js" }],
   }),
@@ -100,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
@@ -118,6 +118,9 @@ function RootComponent() {
     const tg = (window as any).Telegram?.WebApp;
     tg?.ready?.();
     tg?.expand?.();
+    try { if (tg?.isVersionAtLeast?.("8.0") && /android|ios/.test(tg?.platform ?? "")) tg.requestFullscreen?.(); } catch { /* not supported */ }
+    try { tg?.disableVerticalSwipes?.(); } catch { /* ignore */ }
+    try { tg?.setHeaderColor?.("#e8eefc"); tg?.setBackgroundColor?.("#eef0fb"); tg?.setBottomBarColor?.("#f6eef0"); } catch { /* ignore */ }
   }, []);
 
   return (
