@@ -53,12 +53,20 @@ export async function tg<T = unknown>(method: string, body: Record<string, unkno
 
 /** Sends HTML text; retries without custom emoji if Telegram refuses it. */
 export async function sendHtml(chat_id: number | string, html: string, reply_markup?: unknown, photo?: string) {
-  const send = (text: string) => photo
-    ? tg("sendPhoto", { chat_id, photo, caption: text, parse_mode: "HTML", reply_markup })
-    : tg("sendMessage", { chat_id, text, parse_mode: "HTML", reply_markup, link_preview_options: { is_disabled: true } });
-  let r = await send(html);
-  if (!r.ok && /emoji|entit/i.test(r.description ?? "")) r = await send(html.replace(/<tg-emoji[^>]*>(.*?)<\/tg-emoji>/g, "$1"));
-  if (!r.ok && reply_markup && /style|button/i.test(r.description ?? "")) r = await send(html);
+  const plain = html.replace(/<tg-emoji[^>]*>(.*?)<\/tg-emoji>/g, "$1");
+  const unstyled = reply_markup ? JSON.parse(JSON.stringify(reply_markup, (k, v) => (k === "style" ? undefined : v))) : undefined;
+  const send = (text: string, markup: unknown, pic?: string) => pic
+    ? tg("sendPhoto", { chat_id, photo: pic, caption: text, parse_mode: "HTML", reply_markup: markup })
+    : tg("sendMessage", { chat_id, text, parse_mode: "HTML", reply_markup: markup, link_preview_options: { is_disabled: true } });
+  // Progressive fallbacks: full → no custom emoji → no button colors → no photo.
+  const attempts: [string, unknown, string | undefined][] = [
+    [html, reply_markup, photo], [plain, reply_markup, photo], [plain, unstyled, photo], [plain, unstyled, undefined],
+  ];
+  let r = { ok: false } as Awaited<ReturnType<typeof tg>>;
+  for (const [t, m, p] of attempts) {
+    r = await send(t, m, p);
+    if (r.ok || /chat not found|blocked|deactivated/i.test(r.description ?? "")) break;
+  }
   return r;
 }
 
