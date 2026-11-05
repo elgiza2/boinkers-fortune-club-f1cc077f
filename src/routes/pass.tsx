@@ -1,13 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Check, Clock, LockKeyhole, Moon, Ticket, X } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import headerArt from "@/assets/holo-royal-header.jpg";
 import { ART } from "@/lib/art";
 import { usePurchase } from "@/lib/holo/use-purchase";
 import { useGame, passGift, passNeed, fmt } from "@/lib/game";
-import { PriceTag, type PayCurrency } from "@/components/game/PayToggle";
+import { PriceTag } from "@/components/game/PayToggle";
 
 export const Route = createFileRoute("/pass")({
   head: () => ({
@@ -27,7 +26,6 @@ function PassPage() {
   const { s } = useGame();
   const { buy } = usePurchase();
   const [now, setNow] = useState(() => Date.now());
-  const [pay, setPay] = useState<PayCurrency>("ton");
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
@@ -44,7 +42,7 @@ function PassPage() {
         <div className="fire-pass-title"><h1>Fire Pass</h1><span className="fire-pass-level"><Clock /> {left}</span></div>
       </header>
       <section className="fire-pass-progress" aria-label="Pass progress">
-        <p>Spin the slot and progress!</p>
+        <p>Level {s.passLevel}</p>
         <div className="fire-pass-progress-track">
           <span className="fire-pass-progress-ticket"><Ticket /><Moon /></span>
           <progress max={passNeed(s.passLevel)} value={s.passXp} aria-label="Experience to next level" />
@@ -62,12 +60,12 @@ function PassPage() {
           const free = passGift(level, false), prem = passGift(level, true), royal = passGift(level, true, true);
           const earned = level <= s.passLevel;
           return <div className="fire-pass-row" key={level}>
-            <RewardTile label={`${free.spins} spins`} earned={earned}><img src={ART.wheelSpin} alt="Spins" /><strong>x{free.spins}</strong></RewardTile>
+            <RewardTile label={`${free.spins} spins`} earned={earned}><PassReward spins={free.spins} tickets={free.tickets} /></RewardTile>
             <RewardTile label={`${prem.spins} spins, ${prem.tickets} ticket`} earned={earned && premiumActive} premium locked={!premiumActive}>
-              <img src={ART.wheelSpin} alt="Premium spins" /><strong>x{prem.spins}</strong>
+              <PassReward spins={prem.spins} tickets={prem.tickets} />
             </RewardTile>
             <RewardTile label={`${royal.spins} spins, ${royal.tickets} tickets`} earned={earned && s.royal} premium locked={!s.royal}>
-              <img src={ART.wheelSpin} alt="Royal spins" /><strong>x{royal.spins}</strong>
+              <PassReward spins={royal.spins} tickets={royal.tickets} />
             </RewardTile>
             <span className="fire-pass-row-level">{level}</span>
           </div>;
@@ -76,18 +74,18 @@ function PassPage() {
       <footer className="fire-pass-footer">
         <div className="fire-pass-subscribe">
           <div className="fire-pass-sub-cards">
-            <button type="button" className="fire-pass-sub-card" disabled={premiumActive} onClick={() => void buy("premium_pass", pay === "ton" ? "gram" : "stars")}>
+            <Button type="button" className="fire-pass-sub-card" disabled={premiumActive} onClick={() => void buy("premium_pass", "stars")}>
               <span>PREMIUM ×2</span>
-              <PriceTag ton={1.5} currency={pay} />
+              <PriceTag ton={1.5} stars={150} currency="stars" />
               {premiumActive && <small>ACTIVE</small>}
-            </button>
-            <button type="button" className="fire-pass-sub-card fire-pass-sub-royal" disabled={s.royal} onClick={() => void buy("royal_pass", pay === "ton" ? "gram" : "stars")}>
+            </Button>
+            <Button type="button" className="fire-pass-sub-card fire-pass-sub-royal" disabled={s.royal} onClick={() => void buy("royal_pass", "stars")}>
               <span>ROYAL ×4</span>
-              <PriceTag ton={3} currency={pay} />
+              <PriceTag ton={3} stars={300} currency="stars" />
               {s.royal && <small>ACTIVE</small>}
-            </button>
+            </Button>
           </div>
-          <p className="fire-pass-sub-note">Rewards are added automatically after payment.</p>
+          <p className="fire-pass-sub-note">Track bonuses apply to future levels reached while your pass is active.</p>
         </div>
       </footer>
     </div>
@@ -110,4 +108,8 @@ function RewardTile({ children, label, earned, premium, locked }: { children: Re
       {children}
     </div>
   </div>;
+}
+
+function PassReward({ spins, tickets }: { spins: number; tickets: number }) {
+  return <span className="fire-pass-reward-pair"><span><img src={ART.bolt} alt="Spins" /><strong>{fmt(spins)}</strong></span>{tickets > 0 && <span><img src={ART.wheelSpin} alt="Wheel spins" /><strong>{tickets}</strong></span>}</span>;
 }
