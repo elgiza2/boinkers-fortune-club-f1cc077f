@@ -12,8 +12,8 @@ export const HOLO_EMOJI_ID = "5368765414136364384"; // from t.me/addemoji/creato
 export const NEWS_CHAT = "@holocom";
 export const COMMUNITY_CHAT = "@holoik";
 
-async function hmac(key: ArrayBuffer | Uint8Array, data: string) {
-  const k = await crypto.subtle.importKey("raw", key, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+async function hmac(key: Uint8Array, data: string) {
+  const k = await crypto.subtle.importKey("raw", key as BufferSource, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return new Uint8Array(await crypto.subtle.sign("HMAC", k, enc.encode(data)));
 }
 const hex = (b: Uint8Array) => Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
