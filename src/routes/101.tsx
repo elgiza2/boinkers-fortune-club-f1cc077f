@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
-import { holoAdmin } from "@/lib/holo/holo.functions";
+import { holoAdmin, type AdminOp } from "@/lib/holo/holo.functions";
 import { tgInitData } from "@/lib/game";
 
 export const Route = createFileRoute("/101")({
@@ -22,7 +22,7 @@ function AdminPage() {
   const [edit, setEdit] = useState<(Omit<Task, "id"> & { id: string | null }) | null>(null);
   const [newAdmin, setNewAdmin] = useState({ username: "", role: "tasks" as "owner" | "tasks" });
 
-  const run = useCallback(async (op: Parameters<typeof holoAdmin>[0]["data"]["op"]) => {
+  const run = useCallback(async (op: AdminOp) => {
     const initData = tgInitData();
     if (!initData) { setDenied(true); return; }
     const r = await call({ data: { initData, op } });

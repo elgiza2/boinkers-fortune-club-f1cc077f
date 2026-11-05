@@ -22,12 +22,12 @@ export const holoSync = createServerFn({ method: "POST" })
     await d.from("holo_players").upsert({
       telegram_id: user.id, username: user.username?.toLowerCase() ?? null, first_name: user.first_name ?? null,
       photo_url: user.photo_url ?? null, language_code: user.language_code ?? null, last_seen_at: new Date().toISOString(),
-      ...(s ? { state: s, coins: Math.floor(Number(s.coins) || 0), spins: Math.floor(Number(s.spins) || 0), tickets: Math.floor(Number(s.tickets) || 0), gram: Number(s.ton) || 0, solo: Number(s.solo) || 0 } : {}),
+      ...(s ? { state: s, coins: Math.floor(Number(s["coins"]) || 0), spins: Math.floor(Number(s["spins"]) || 0), tickets: Math.floor(Number(s["tickets"]) || 0), gram: Number(s["ton"]) || 0, solo: Number(s["solo"]) || 0 } : {}),
       ...(!existing && ref ? { referred_by: ref } : {}),
     }, { onConflict: "telegram_id" });
     const { data: pending } = await d.rpc("holo_take_pending", { p_user: user.id });
     return {
-      saved: (existing?.state ?? null) as Record<string, unknown> | null,
+      saved: existing?.state ? JSON.stringify(existing.state) : null,
       pending: (pending ?? {}) as { coins?: number; spins?: number; tickets?: number; gram?: number; premium?: boolean; royal?: boolean },
       role: await adminRole(user.username),
     };
@@ -132,6 +132,7 @@ const adminAction = z.discriminatedUnion("action", [
   z.object({ action: z.literal("removeAdmin"), username: z.string().max(40) }),
 ]);
 
+export type AdminOp = z.infer<typeof adminAction>;
 export const holoAdmin = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => init.extend({ op: adminAction }).parse(d))
   .handler(async ({ data }) => {

@@ -208,7 +208,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     try {
       const ref = new URLSearchParams(window.location.search).get("ref") ?? tgStartParam() ?? undefined;
       const res = await holoSync({ data: { initData, state: first ? null : (sRef.current as unknown as Record<string, unknown>), ref: ref ?? undefined } });
-      if (first && res.saved && !localStorage.getItem(KEY + ":synced")) setS({ ...initial(), ...(res.saved as Partial<GameState>) });
+      if (first && res.saved && !localStorage.getItem(KEY + ":synced")) setS({ ...initial(), ...(JSON.parse(res.saved) as Partial<GameState>) });
       if (first) localStorage.setItem(KEY + ":synced", "1");
       setRole(res.role);
       applyPending(res.pending);
