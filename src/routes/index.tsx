@@ -39,6 +39,7 @@ function burstParts(p: WinInfo): Burst[] {
   const rng = rand(p.k + 1);
   const kinds: { img: string; n: number; size: number }[] = [];
   if (p.coins) kinds.push({ img: ART.coin, n: Math.min(18, 9 + Math.floor(Math.log10(p.coins + 1) * 3)), size: 28 });
+  if (p.tok) kinds.push({ img: TOKEN_ART[p.tok.key]!, n: Math.min(10, 4 + p.tok.n), size: 32 });
   if (p.solo) kinds.push({ img: ART.gem, n: 6, size: 26 });
   if (p.spins) kinds.push({ img: ART.bolt, n: 3, size: 24 });
   if (p.tickets) kinds.push({ img: ART.wheelSpin, n: 3, size: 26 });
