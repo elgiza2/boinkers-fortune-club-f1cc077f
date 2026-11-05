@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import headerArt from "@/assets/fire-pass-header.jpg";
 import { ART } from "@/lib/art";
+import { usePurchase } from "@/lib/holo/use-purchase";
 import { useGame, passGift, passNeed, fmt } from "@/lib/game";
 import { PayToggle, PriceTag, type PayCurrency } from "@/components/game/PayToggle";
 
@@ -23,7 +24,8 @@ export const Route = createFileRoute("/pass")({
 });
 
 function PassPage() {
-  const { s, subscribePass } = useGame();
+  const { s } = useGame();
+  const { buy } = usePurchase();
   const [now, setNow] = useState(() => Date.now());
   const [pay, setPay] = useState<PayCurrency>("ton");
   useEffect(() => {
@@ -75,18 +77,18 @@ function PassPage() {
         <div className="fire-pass-subscribe">
           <PayToggle value={pay} onChange={setPay} />
           <div className="fire-pass-sub-cards">
-            <button type="button" className="fire-pass-sub-card" disabled={premiumActive} onClick={() => { subscribePass("premium"); toast.success("Premium Pass active — gifts doubled!"); }}>
+            <button type="button" className="fire-pass-sub-card" disabled={premiumActive} onClick={() => void buy("premium_pass", pay === "ton" ? "gram" : "stars")}>
               <span>PREMIUM ×2</span>
               <PriceTag ton={1.5} currency={pay} />
               {premiumActive && <small>ACTIVE</small>}
             </button>
-            <button type="button" className="fire-pass-sub-card fire-pass-sub-royal" disabled={s.royal} onClick={() => { subscribePass("royal"); toast.success("Royal Pass active — gifts quadrupled!"); }}>
+            <button type="button" className="fire-pass-sub-card fire-pass-sub-royal" disabled={s.royal} onClick={() => void buy("royal_pass", pay === "ton" ? "gram" : "stars")}>
               <span>ROYAL ×4</span>
               <PriceTag ton={3} currency={pay} />
               {s.royal && <small>ACTIVE</small>}
             </button>
           </div>
-          <p className="fire-pass-sub-note">Payments are not connected yet — nothing will be charged.</p>
+          <p className="fire-pass-sub-note">Rewards are added automatically after payment.</p>
         </div>
       </footer>
     </div>

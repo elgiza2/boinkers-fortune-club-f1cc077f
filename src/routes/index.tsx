@@ -5,6 +5,7 @@ import { Crown, Gift, Ticket } from "lucide-react";
 import hero from "@/assets/hero-character.png";
 import { Screen } from "@/components/game/Shell";
 import { useGame, fmt, beep, haptic, passNeed, currentEvent, evNeed, evReward, clock, prizeTier, applyPrizeMult } from "@/lib/game";
+import { SpinsOffer } from "@/components/game/SpinsOffer";
 import { EventsRow } from "@/components/game/LiveEvents";
 import { REEL_WEIGHTS, payout } from "@/lib/slots";
 import { LIVE_EVENTS } from "@/lib/events";
@@ -101,12 +102,13 @@ function Home() {
   }, []);
   const [shake, setShake] = useState(false);
   const [auto, setAuto] = useState(false);
+  const [noSpins, setNoSpins] = useState(false);
   const holdT = useRef<ReturnType<typeof setTimeout>>(undefined);
   const busy = spinning.some(Boolean);
 
   const spin = () => {
     if (busy) return;
-    if (!spend({ spins: bet })) { toast.error("Out of spins! Wait for recharge or earn more."); setAuto(false); return; }
+    if (!spend({ spins: bet })) { setNoSpins(true); setAuto(false); return; }
     haptic(); setWin(null);
     const up = gainPass(bet);
     if (up) setTimeout(() => setLevelUp(true), 1500);
@@ -275,6 +277,7 @@ function Home() {
         <div className="mt-3 w-full max-w-[360px] space-y-2">
           <EventsRow now={now} />
         </div>
+        <SpinsOffer open={noSpins} onClose={() => setNoSpins(false)} />
       </div>
     </Screen>
   );

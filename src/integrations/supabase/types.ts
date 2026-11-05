@@ -811,6 +811,291 @@ export type Database = {
         }
         Relationships: []
       }
+      holo_admins: {
+        Row: {
+          added_by: string | null
+          created_at: string
+          role: string
+          username: string
+        }
+        Insert: {
+          added_by?: string | null
+          created_at?: string
+          role: string
+          username: string
+        }
+        Update: {
+          added_by?: string | null
+          created_at?: string
+          role?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      holo_gifts: {
+        Row: {
+          claimed_at: string | null
+          created_at: string
+          id: string
+          reason: string
+          reward: Json
+          telegram_id: number
+        }
+        Insert: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          reason?: string
+          reward: Json
+          telegram_id: number
+        }
+        Update: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          reason?: string
+          reward?: Json
+          telegram_id?: number
+        }
+        Relationships: []
+      }
+      holo_notifications: {
+        Row: {
+          created_at: string
+          failed: number
+          sent: number
+          slot: string
+        }
+        Insert: {
+          created_at?: string
+          failed?: number
+          sent?: number
+          slot: string
+        }
+        Update: {
+          created_at?: string
+          failed?: number
+          sent?: number
+          slot?: string
+        }
+        Relationships: []
+      }
+      holo_payments: {
+        Row: {
+          amount: number
+          charge_id: string | null
+          comment: string | null
+          created_at: string
+          id: string
+          method: string
+          paid_at: string | null
+          product: string
+          reward: Json
+          status: string
+          telegram_id: number
+          tx_hash: string | null
+        }
+        Insert: {
+          amount: number
+          charge_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          method: string
+          paid_at?: string | null
+          product: string
+          reward?: Json
+          status?: string
+          telegram_id: number
+          tx_hash?: string | null
+        }
+        Update: {
+          amount?: number
+          charge_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          method?: string
+          paid_at?: string | null
+          product?: string
+          reward?: Json
+          status?: string
+          telegram_id?: number
+          tx_hash?: string | null
+        }
+        Relationships: []
+      }
+      holo_players: {
+        Row: {
+          blocked_bot: boolean
+          bot_started: boolean
+          coins: number
+          created_at: string
+          first_name: string | null
+          gram: number
+          joined_channel: boolean
+          joined_group: boolean
+          language_code: string | null
+          last_seen_at: string
+          pending: Json
+          photo_url: string | null
+          referred_by: number | null
+          solo: number
+          spins: number
+          state: Json | null
+          telegram_id: number
+          tickets: number
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          blocked_bot?: boolean
+          bot_started?: boolean
+          coins?: number
+          created_at?: string
+          first_name?: string | null
+          gram?: number
+          joined_channel?: boolean
+          joined_group?: boolean
+          language_code?: string | null
+          last_seen_at?: string
+          pending?: Json
+          photo_url?: string | null
+          referred_by?: number | null
+          solo?: number
+          spins?: number
+          state?: Json | null
+          telegram_id: number
+          tickets?: number
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          blocked_bot?: boolean
+          bot_started?: boolean
+          coins?: number
+          created_at?: string
+          first_name?: string | null
+          gram?: number
+          joined_channel?: boolean
+          joined_group?: boolean
+          language_code?: string | null
+          last_seen_at?: string
+          pending?: Json
+          photo_url?: string | null
+          referred_by?: number | null
+          solo?: number
+          spins?: number
+          state?: Json | null
+          telegram_id?: number
+          tickets?: number
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      holo_posts: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: number | null
+          slot: string
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id?: number | null
+          slot: string
+          text: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: number | null
+          slot?: string
+          text?: string
+        }
+        Relationships: []
+      }
+      holo_task_completions: {
+        Row: {
+          created_at: string
+          task_id: string
+          telegram_id: number
+        }
+        Insert: {
+          created_at?: string
+          task_id: string
+          telegram_id: number
+        }
+        Update: {
+          created_at?: string
+          task_id?: string
+          telegram_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "holo_task_completions_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "holo_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "holo_task_completions_telegram_id_fkey"
+            columns: ["telegram_id"]
+            isOneToOne: false
+            referencedRelation: "holo_players"
+            referencedColumns: ["telegram_id"]
+          },
+        ]
+      }
+      holo_tasks: {
+        Row: {
+          active: boolean
+          chat_id: string | null
+          created_at: string
+          id: string
+          kind: string
+          reward_coins: number
+          reward_spins: number
+          reward_tickets: number
+          sort: number
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          active?: boolean
+          chat_id?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          reward_coins?: number
+          reward_spins?: number
+          reward_tickets?: number
+          sort?: number
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          active?: boolean
+          chat_id?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          reward_coins?: number
+          reward_spins?: number
+          reward_tickets?: number
+          sort?: number
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       megsy_accounts: {
         Row: {
           created_at: string
@@ -2157,6 +2442,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      holo_claim_gift: {
+        Args: { p_gift: string; p_user: number }
+        Returns: Json
+      }
+      holo_credit: {
+        Args: { p_reward: Json; p_user: number }
+        Returns: undefined
+      }
+      holo_take_pending: { Args: { p_user: number }; Returns: Json }
       sync_megsy_account: {
         Args: {
           p_email: string

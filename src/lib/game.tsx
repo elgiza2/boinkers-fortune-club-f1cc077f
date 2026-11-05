@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { addTokens, eventRun, eventTiers, LIVE_EVENTS, progressFor, type EventProgress, type EventReward } from "./events";
+import { holoSync } from "./holo/holo.functions";
 import { bankProduction, buyCharacter, mergeRate, moveCharacter, starterBoard, type Board } from "./merge";
 
 export const MAX_SPINS = 50;
@@ -168,6 +169,9 @@ interface Ctx {
   moveMerge: (from: number, to: number) => void;
   gainLive: (hits: Record<string, number>) => void;
   claimLive: (key: string, tier: number) => EventReward | null;
+  role: "owner" | "tasks" | null;
+  syncNow: (first?: boolean) => Promise<void>;
+  applyPending: (r: { coins?: number; spins?: number; tickets?: number; gram?: number; premium?: boolean; royal?: boolean }) => void;
 }
 const GameCtx = createContext<Ctx | null>(null);
 const KEY = "solo-slots-v1";
@@ -188,6 +192,36 @@ export function GameProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(t);
   }, []);
   useEffect(() => { if (loaded.current) localStorage.setItem(KEY, JSON.stringify(s)); }, [s]);
+
+  // ---- Holo server sync (Telegram players): saves progress and applies bot/payment rewards ----
+  const [role, setRole] = useState<"owner" | "tasks" | null>(null);
+  const sRef = useRef(s); sRef.current = s;
+  const applyPending = useCallback((r: { coins?: number; spins?: number; tickets?: number; gram?: number; premium?: boolean; royal?: boolean }) => {
+    if (!r || !Object.keys(r).length) return;
+    setS((p) => ({
+      ...p, coins: p.coins + (r.coins ?? 0), spins: p.spins + (r.spins ?? 0), tickets: p.tickets + (r.tickets ?? 0), ton: +(p.ton + Number(r.gram ?? 0)).toFixed(2),
+      ...(r.premium || r.royal ? { premium: true, royal: p.royal || !!r.royal, passEndsAt: Math.max(p.passEndsAt, Date.now() + PASS_MS) } : {}),
+    }));
+  }, []);
+  const syncNow = useCallback(async (first = false) => {
+    const initData = tgInitData(); if (!initData) return;
+    try {
+      const ref = new URLSearchParams(window.location.search).get("ref") ?? tgStartParam() ?? undefined;
+      const res = await holoSync({ data: { initData, state: first ? null : (sRef.current as unknown as Record<string, unknown>), ref: ref ?? undefined } });
+      if (first && res.saved && !localStorage.getItem(KEY + ":synced")) setS({ ...initial(), ...(res.saved as Partial<GameState>) });
+      if (first) localStorage.setItem(KEY + ":synced", "1");
+      setRole(res.role);
+      applyPending(res.pending);
+    } catch (e) { console.error("Holo sync failed", e); }
+  }, [applyPending]);
+  useEffect(() => {
+    if (!ready) return;
+    void syncNow(true);
+    const t = setInterval(() => void syncNow(), 20_000);
+    const vis = () => { if (document.visibilityState === "hidden") void syncNow(); else void syncNow(); };
+    document.addEventListener("visibilitychange", vis);
+    return () => { clearInterval(t); document.removeEventListener("visibilitychange", vis); };
+  }, [ready, syncNow]);
 
 
   // spin regen
@@ -297,7 +331,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     passEndsAt: Math.max(p.passEndsAt, Date.now() + PASS_MS),
   })), []);
 
-  return <GameCtx.Provider value={{ s, ready, pendingSolo, nextSpinIn, grant, spend, claimSolo, upgrade, completeTask, claimMilestone, subscribePass, toggleSound, setLang, gainPass, gainEvent, buyMerge, moveMerge, gainLive, claimLive }}>{children}</GameCtx.Provider>;
+  return <GameCtx.Provider value={{ s, ready, pendingSolo, nextSpinIn, grant, spend, claimSolo, upgrade, completeTask, claimMilestone, subscribePass, toggleSound, setLang, gainPass, gainEvent, buyMerge, moveMerge, gainLive, claimLive, role, syncNow, applyPending }}>{children}</GameCtx.Provider>;
 }
 
 export function useGame() {
@@ -332,3 +366,8 @@ export function beep(on: boolean, freq = 600, dur = 0.08) {
 export function haptic() {
   try { (window as any).Telegram?.WebApp?.HapticFeedback?.impactOccurred("medium"); } catch { /* ignore */ }
 }
+
+type TgWA = { initData?: string; initDataUnsafe?: { start_param?: string } };
+const tgWA = (): TgWA | undefined => (typeof window === "undefined" ? undefined : (window as unknown as { Telegram?: { WebApp?: TgWA } }).Telegram?.WebApp);
+export function tgInitData() { return tgWA()?.initData || ""; }
+function tgStartParam() { return tgWA()?.initDataUnsafe?.start_param?.replace(/^ref_?/, "") ?? null; }
