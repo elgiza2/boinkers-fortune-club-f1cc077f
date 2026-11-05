@@ -1,11 +1,11 @@
 import { useServerFn } from "@tanstack/react-start";
 import { holoTasks, holoClaimTask } from "@/lib/holo/holo.functions";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Screen } from "@/components/game/Shell";
 import { ART } from "@/lib/art";
-import { fmt, useGame } from "@/lib/game";
+import { fmt, tgInitData, useGame } from "@/lib/game";
 
 export const Route = createFileRoute("/earn")({
   head: () => ({
