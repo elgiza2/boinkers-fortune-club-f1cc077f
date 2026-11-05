@@ -56,8 +56,8 @@ function NftPage() {
         {["All", "Explorers", "Fantasy", "Legends"].map((g) => (
           <button key={g} onClick={() => setGroup(g)} className={`nft-chip ${group === g ? "is-on" : ""}`}>{g}</button>
         ))}
-        <PayToggle value={pay} onChange={setPay} className="ml-auto" />
       </div>
+      <PayToggle value={pay} onChange={setPay} className="nft-pay" />
       <div className="nft-grid">
         {items.map(item => (
           <article key={item.id} className={`nft-tile nft-${item.group.toLowerCase()}`}>
